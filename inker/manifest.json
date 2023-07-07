@@ -1,0 +1,28 @@
+{
+    "manifest_version":3,
+    "name":"Inker",
+    "version":"1.0.0",
+    "action":{
+        "default_popup":"popup.html"
+    },
+    "permissions":[
+        "contextMenus"
+    ],
+    "content_scripts": [
+        {
+          "matches": ["https://*/*","file://*"],
+          
+          "js": ["service.js"]
+        }
+      ],
+      "background":{
+        "service_worker":"sw1.js",
+        "type":"module"
+      },
+      "premissions":[
+        "tabs"
+      ]
+      
+
+
+}

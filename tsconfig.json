@@ -1,0 +1,16 @@
+{
+"compilerOptions": {
+    "module": "ES6",
+    "target": "ES6",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "jsx":"react",
+    "moduleResolution": "Node",
+    
+    
+    
+    "allowSyntheticDefaultImports": true
+},
+"include": ["./*.tsx"],
+"exclude":["./node_modules","package-lock.jsion","package.json","*.js","*.css","*.json"],
+}
