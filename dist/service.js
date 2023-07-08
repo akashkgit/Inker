@@ -16,19 +16,47 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-console.log(" installed ");
-chrome.contextMenus.create({
-    id: "save",
-    title: "Save to Doc",
-    contexts: ["all"],
+chrome.runtime.onInstalled.addListener((ev) => {
+    console.log(" installed ");
+    //chrome.runtime.connect({"name":"popup"})
+    // chrome.runtime.sendMessage({'msg':"hello installed"},(res)=>console.log(res));
+    chrome.contextMenus.create({
+        id: "Inker",
+        title: "Inker",
+        contexts: ["all"]
+    });
+    chrome.contextMenus.create({
+        id: "saveToDoc",
+        title: "Save to Doc",
+        contexts: ["all"],
+        parentId: "Inker"
+    });
+    chrome.contextMenus.create({
+        id: "inkIt",
+        title: "🖍️Ink It!",
+        contexts: ["all"],
+        parentId: "Inker"
+    });
+    chrome.contextMenus.create({
+        id: "unInk",
+        title: "unInk",
+        contexts: ["all"],
+        parentId: "Inker"
+    });
+    chrome.contextMenus.onClicked.addListener((ev) => __awaiter(this, void 0, void 0, function* () {
+        console.log(ev.menuItemId);
+        const chosenId = ev.menuItemId;
+        if (chosenId == "saveToDoc") {
+        }
+        else if (chosenId == "inkIt") {
+        }
+        const [tab] = yield chrome.tabs.query({ active: true, lastFocusedWindow: true });
+        const response = yield chrome.tabs.sendMessage(tab.id, { msg: chosenId });
+        //console.log(response);
+        //console.log("clicked");
+        //console.log(ev.selectionText)
+    }));
 });
-chrome.contextMenus.onClicked.addListener((ev) => __awaiter(this, void 0, void 0, function* () {
-    const [tab] = yield chrome.tabs.query({ active: true, lastFocusedWindow: true });
-    const response = yield chrome.tabs.sendMessage(tab.id, { msg: "popup" });
-    console.log(response);
-    console.log("clicked");
-    console.log(ev.selectionText);
-}));
 
 
 /***/ })

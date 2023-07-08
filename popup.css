@@ -1,10 +1,6 @@
-/*!***********************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./app.css ***!
-  \***********************************************************/
-  body{
-    width:300px;
-    height:30px;
-    
+body{
+  width:400px;
+  height:200px;
+  margin:0;
+  
 }
-
-/*# sourceMappingURL=popup.css.map*/

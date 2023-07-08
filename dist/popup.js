@@ -14,6 +14,18 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./popup.css":
+/*!*******************!*\
+  !*** ./popup.css ***!
+  \*******************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/react-dom/cjs/react-dom.development.js":
 /*!*************************************************************!*\
   !*** ./node_modules/react-dom/cjs/react-dom.development.js ***!
@@ -33401,9 +33413,43 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.css */ "./app.css");
 
 
+
 function App() {
-    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement((react__WEBPACK_IMPORTED_MODULE_0___default().Fragment), null,
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h1", null, "Hello"));
+    const [style, setStyle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("styleSelector");
+    return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'top' },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "app" },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex' },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { className: 'clear', name: "style", id: "style", value: style, onChange: (val) => { setStyle(val.target.value); } },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "styleSelector", selected: true }, "Inker Style"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "underline" }, "underline It"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "box" }, "Box it"))),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { name: "boxStyle", id: "boxStyle" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "dotted", selected: true }, "Dotted"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "inset", style: { display: (style === "box") ? "block" : "none" } }, "Inset"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "dashed" }, "Dashed"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "groove", style: { display: (style === "box") ? "block" : "none" } }, "Groove"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "double", style: { display: (style === "box") ? "block" : "none" } }, "Double"))),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex2i" },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "color", id: "colorPicker" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { className: "below", htmlFor: 'colorPicker' }, "Color"))),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2' },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "radio", value: "sNE" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'sNE' }, "Start & End")),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "radio", value: "full" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'fulll' }, "Full")),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "checkbox", id: "sync", checked: true }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "sync" }, "Sync")))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "range", id: "thickness" }),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'thickness', className: 'thickness' }, "Thickness"));
 }
 
 
@@ -33500,6 +33546,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./App.tsx");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _popup_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./popup.css */ "./popup.css");
+
 
 
 
