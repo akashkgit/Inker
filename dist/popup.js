@@ -33411,46 +33411,165 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _app_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.css */ "./app.css");
+/* harmony import */ var _helper1__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helper1 */ "./helper1.tsx");
+
 
 
 
 function App() {
-    const [style, setStyle] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("styleSelector");
+    const [controls, setControls] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({ "style": "styleSelector", "lineStyle": "lineStyle", "colorPicker": "black", "sNe": false, "sync": true, "thickness": 1 });
+    // --------initialises sync variable to 
+    //---------allow user to choose whether to syn or not 
+    (0,_helper1__WEBPACK_IMPORTED_MODULE_2__.initSync)(controls, setControls);
+    // --------- onchange handlers --------------
+    let uControlsBasicHandler = (ev) => {
+        (0,_helper1__WEBPACK_IMPORTED_MODULE_2__.uControlsHandler)(ev, setControls, controls, typeof controls);
+    };
+    console.log("re rednering");
+    //onChange={(val) => {setStyle((val.target as HTMLSelectElement).value)}}
     return react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'top' },
         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "app" },
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex' },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { className: 'clear', name: "style", id: "style", value: style, onChange: (val) => { setStyle(val.target.value); } },
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "styleSelector", selected: true }, "Inker Style"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { onChange: uControlsBasicHandler, value: controls.style, className: 'clear', name: "style", id: "style" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "styleSelector" }, "Inker Style"),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "underline" }, "underline It"),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "box" }, "Box it"))),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { name: "boxStyle", id: "boxStyle" },
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "dotted", selected: true }, "Dotted"),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "inset", style: { display: (style === "box") ? "block" : "none" } }, "Inset"),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("select", { value: controls.lineStyle, onChange: uControlsBasicHandler, name: "lineStyle", id: "lineStyle" },
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "lineStyle" }, "lineStyle"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "dotted" }, "Dotted"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "inset", style: { display: (controls.style === "box") ? "block" : "none" } }, "Inset"),
                         react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "dashed" }, "Dashed"),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "groove", style: { display: (style === "box") ? "block" : "none" } }, "Groove"),
-                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "double", style: { display: (style === "box") ? "block" : "none" } }, "Double"))),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "groove", style: { display: (controls.style === "box") ? "block" : "none" } }, "Groove"),
+                        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("option", { value: "double", style: { display: (controls.style === "box") ? "block" : "none" } }, "Double"))),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: "flex2i" },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "color", id: "colorPicker" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { value: controls.colorPicker, onChange: uControlsBasicHandler, type: "color", id: "colorPicker" }),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { className: "below", htmlFor: 'colorPicker' }, "Color"))),
             react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2' },
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "radio", value: "sNE" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "checkbox", checked: controls.sNe, id: "sNe", onChange: uControlsBasicHandler }),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'sNE' }, "Start & End")),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "sNe" }, "Inker start and End only")),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "radio", value: "full" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "checkbox", checked: controls.sync, id: "sync", onChange: uControlsBasicHandler }),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'fulll' }, "Full")),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "sync" }, "Sync")),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "checkbox", id: "sync", checked: true }),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "sync" }, "Sync")))),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { type: "range", id: "thickness" }),
-        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'thickness', className: 'thickness' }, "Thickness"));
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { value: controls.thickness, type: "range", onChange: uControlsBasicHandler, id: "thickness" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'thickness', className: 'thickness' }, "Thickness")))));
 }
+
+
+/***/ }),
+
+/***/ "./helper1.tsx":
+/*!*********************!*\
+  !*** ./helper1.tsx ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initSync: () => (/* binding */ initSync),
+/* harmony export */   syncHandler: () => (/* binding */ syncHandler),
+/* harmony export */   uControlsHandler: () => (/* binding */ uControlsHandler)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var __awaiter = (undefined && undefined.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+
+//-------------- Initialization code ------------
+let initSync = (controls, setControls) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        console.log(" running useeffect for inital sync fetching...");
+        console.log("passed in sync ", controls);
+        chrome.storage.sync.get(["controls"]).then((val) => {
+            console.log(" sync parent object obtained ", val);
+            let ls = document.querySelector("#lineStyle");
+            let style = document.querySelector("#style");
+            let sNe = document.querySelector("#sNe");
+            let full = document.querySelector("#full");
+            let colorPicker = document.querySelector("#colorPicker");
+            let thickness = document.querySelector("#thickness");
+            if (val === undefined || val.controls === undefined) {
+                console.log("not found in sync sstorage ");
+                chrome.storage.sync.set({
+                    "controls": controls,
+                }).then(() => __awaiter(void 0, void 0, void 0, function* () {
+                    let res = yield chrome.storage.sync.get("controls");
+                    console.log(" fetched data", res.controls, res);
+                }));
+            }
+            else {
+                console.log(" prefetching old records found in sync storage....");
+                chrome.storage.sync.get(null, (val) => {
+                    setControls(Object.assign({}, (val.controls)));
+                });
+            }
+            //        chrome.storage.sync.remove("sync");
+        });
+        chrome.storage.onChanged.addListener((changes, namespace) => {
+            console.log(namespace, " changed", changes);
+            if (changes && changes.controls && changes.controls.newValue) {
+                console.log(changes);
+                // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
+                // //   console.log(
+                // //     `Storage key "${key}" in namespace "${namespace}" changed.`,
+                // //     `Old value was "${oldValue}", new value is "${newValue}".`
+                // //   );
+                console.log(" new value ", changes.controls.newValue);
+                setControls(changes.controls.newValue);
+                //}
+            }
+        });
+    }, []);
+};
+// ------- change  handlers -----------------
+let syncHandler = (val, sync, setSync) => {
+    if (val.target.checked == true) {
+        chrome.storage.local.get(null, ((val) => {
+            chrome.storage.sync.set(Object.assign(Object.assign({}, val), { "sync": true })).then(() => { chrome.storage.sync.get(null, (val) => console.log(" sync storage value ", val)); setSync(true); });
+        }));
+    }
+    else {
+        chrome.storage.sync.get(null, ((val) => {
+            console.log("all values from sync storage", val);
+            chrome.storage.local.set(Object.assign(Object.assign({}, val), { "sync": false })).then(() => { chrome.storage.local.get(null, (val) => console.log(" local storage value ", val)); setSync(false); });
+        }));
+    }
+};
+let uControlsHandler = (val, setControls, controls, typedec) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(" controls before changing ", controls);
+    let toBeStored = Object.assign({}, controls);
+    toBeStored[val.target.id] = (val.target.id === "sNe" || val.target.id === "sync") ? val.target.checked : (val.target.value);
+    console.log(" controls after changing ", toBeStored);
+    let res = yield chrome.storage.sync.get("controls");
+    console.log(" storing ", toBeStored, "id ", val.target.id, "val ", val.target.id, " key[id] ", toBeStored[val.target.id]);
+    if (toBeStored.sync === false) {
+        //-------- local case
+        console.log("stoing in local");
+        chrome.storage.local.set({ "controls": toBeStored });
+        if (controls.sync === true)
+            chrome.storage.sync.clear().then(() => console.log("cleareed sync storage"));
+    }
+    else {
+        //------ sync storage
+        console.log("stoing in sync");
+        if (controls.sync === false)
+            chrome.storage.local.clear().then(() => console.log("cleareed local storage"));
+        chrome.storage.sync.set({ "controls": toBeStored });
+    }
+});
 
 
 /***/ })

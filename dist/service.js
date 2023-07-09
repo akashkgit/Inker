@@ -18,8 +18,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 chrome.runtime.onInstalled.addListener((ev) => {
     console.log(" installed ");
-    //chrome.runtime.connect({"name":"popup"})
-    // chrome.runtime.sendMessage({'msg':"hello installed"},(res)=>console.log(res));
     chrome.contextMenus.create({
         id: "Inker",
         title: "Inker",
@@ -46,12 +44,9 @@ chrome.runtime.onInstalled.addListener((ev) => {
     chrome.contextMenus.onClicked.addListener((ev) => __awaiter(this, void 0, void 0, function* () {
         console.log(ev.menuItemId);
         const chosenId = ev.menuItemId;
-        if (chosenId == "saveToDoc") {
-        }
-        else if (chosenId == "inkIt") {
-        }
         const [tab] = yield chrome.tabs.query({ active: true, lastFocusedWindow: true });
-        const response = yield chrome.tabs.sendMessage(tab.id, { msg: chosenId });
+        console.log(tab.id);
+        const response = yield chrome.tabs.sendMessage(tab.id, { ev });
         //console.log(response);
         //console.log("clicked");
         //console.log(ev.selectionText)

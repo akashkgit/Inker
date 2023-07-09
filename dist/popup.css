@@ -23,29 +23,27 @@
     display:grid;
     
   
-    grid-template: repeat(1,1fr)/repeat(2,1fr);
+    grid-template: repeat(1,1fr)/40% auto;
     
 }
 
-.flex3{
-  
-    /* display:flex;
-    align-items: center;
-    grid-column-start: 3; */
-}
+
 
 input[type=range]{
-    transform: rotate(0.75turn);
-    position:absolute;
+    
     top:40%;left:70%;
-    width:25%;
+    width:55%;
 
     
+}
+
+#level{
+
+    width:60%;
 }
 label.thickness{
     position:relative;
-    left:82%;
-    top:-20%;
+    
 }
 .flex{
     display:flex;

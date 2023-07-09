@@ -1,7 +1,6 @@
 chrome.runtime.onInstalled.addListener((ev)=>{
     console.log(" installed ");
-    //chrome.runtime.connect({"name":"popup"})
-    // chrome.runtime.sendMessage({'msg':"hello installed"},(res)=>console.log(res));
+    
     chrome.contextMenus.create({
         id:"Inker",
         title:"Inker",
@@ -30,16 +29,11 @@ chrome.runtime.onInstalled.addListener((ev)=>{
     chrome.contextMenus.onClicked.addListener(async (ev)=>{
         console.log(ev.menuItemId)
         const chosenId=ev.menuItemId;
-        if(chosenId == "saveToDoc"){
-    
-        }
-        else if (chosenId == "inkIt"){
-    
-    
-        }
+        
     
         const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
-        const response = await chrome.tabs.sendMessage(tab.id, {msg :chosenId});
+        console.log(tab.id);
+        const response = await chrome.tabs.sendMessage(tab.id, {ev});
         //console.log(response);
         //console.log("clicked");
         //console.log(ev.selectionText)
