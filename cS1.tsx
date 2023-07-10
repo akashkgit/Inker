@@ -2,28 +2,62 @@ import { checkIfInked, storeSelected } from "./csHelper";
 //------- unling pallete -------------
 
 
-let unlink=document.createElement("p");
-document.body.appendChild(unlink)
-unlink.innerHTML="Unlink";
-unlink.style.border="1px solid black";
-unlink.style.backgroundColor=" grey";
+let unlinkSingle=document.createElement("p");
 
-unlink.id="unlink";
-unlink.style.position="absolute";
-unlink.style.top="10px";
-unlink.style.left="10px";
-unlink.style.display="none";
-unlink.style.zIndex="100";
-unlink.style.opacity="0.5";
-unlink.style.width="300px";
-unlink.style.height="300px"
-unlink.addEventListener("click",(ev)=>{
+unlinkSingle.innerHTML="Unlink this";
+unlinkSingle.style.border="1px solid black";
+unlinkSingle.style.backgroundColor=" grey";
+
+unlinkSingle.id="unlink-single";
+unlinkSingle.style.width="100%";
+unlinkSingle.style.height="40%";
+unlinkSingle.style.display='inline';
+unlinkSingle.addEventListener("click",(ev)=>{
 let el=(ev.target as HTMLParagraphElement)
 let elToBeRemoved=el.dataset.remove;
 console.log(" Removing ",elToBeRemoved,document.getElementById(elToBeRemoved))
 document.body.removeChild(document.getElementById(elToBeRemoved));
 
 })
+
+let unlinkFull=document.createElement("p");
+
+unlinkFull.innerHTML="Unlink Fully";
+unlinkFull.style.border="1px solid black";
+unlinkFull.style.backgroundColor=" grey";
+unlinkFull.style.width="100%";
+unlinkFull.style.height="40%";
+unlinkFull.style.display='inline';
+unlinkFull.id="unlinkFull";
+
+unlinkFull.addEventListener("click",(ev)=>{
+let el=(ev.target as HTMLParagraphElement)
+let elToBeRemoved=el.dataset.remove;
+console.log(" Removing ",elToBeRemoved,document.body.querySelectorAll(`div[data-group="${elToBeRemoved}"]`))
+//document.body.removeChild(document.getElementByAtt);
+let els=document.body.querySelectorAll(`div[data-group="${elToBeRemoved}"]`);
+els.forEach((val,id)=>{
+        console.log("removing ....",val.id)
+        document.body.removeChild(val);
+
+})
+
+})
+
+let pdiv=document.createElement("div")
+pdiv.appendChild(unlinkFull)
+pdiv.appendChild(unlinkSingle)
+document.body.appendChild(pdiv);
+pdiv.style.position="absolute";
+pdiv.style.top="10px";
+
+pdiv.style.left="10px";
+pdiv.style.display="none";
+pdiv.style.zIndex="100";
+pdiv.style.opacity="0.5";
+pdiv.style.width="200px";
+pdiv.style.height="100px"
+pdiv.style.position="fixed";
 
 
 
@@ -32,7 +66,10 @@ document.addEventListener("click",async (ev)=>{
         //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
         let found= await checkIfInked(ev);
         console.log("element found: ",found);
-        if(found){ unlink.style.display="block";unlink.dataset["remove"]=(ev.target as HTMLDivElement).id;}
+        if(found){ pdiv.style.display="block";
+        unlinkSingle.dataset["remove"]=(ev.target as HTMLDivElement).id;
+        unlinkFull.dataset["remove"]=(ev.target as HTMLDivElement).dataset.group;
+}
 
 
     })  
@@ -50,7 +87,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
     
     const req=request;
     console.log(req);
-    console.log(req.ev.menuItemId === "inkIt")
+    console.log(req.ev.menuItemId === "unInk")
     if (req.ev.menuItemId === "inkIt") {
             
            console.log(" fetching UI controls data form chrome storage")
@@ -111,6 +148,29 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
             console.log(bx);
             
     }
+    else if (req.ev.menuItemId==="unInk"){
+        let el=(document.getElementById("unlinkFull") as HTMLParagraphElement)
+let elToBeRemoved=el.dataset.remove;
+console.log(" Removing ",elToBeRemoved,document.body.querySelectorAll(`div[data-group="${elToBeRemoved}"]`))
+//document.body.removeChild(document.getElementByAtt);
+let els=document.body.querySelectorAll(`div[data-group="${elToBeRemoved}"]`);
+els.forEach((val,id)=>{
+        console.log("removing ....",val.id)
+        document.body.removeChild(val);
+       
+        
+    })
+
+    let store=await chrome.storage.sync.get("store");
+    let sync=true;
+    if(!store || !store.store)
+   { store=await chrome.storage.local.get("store");sync=false;}
+   console.log(" deleting ",elToBeRemoved," from storage sync? ",sync,window.location.href," is the key ") 
+   delete store.store[window.location.href][elToBeRemoved];
+    
+    if(sync)await chrome.storage.sync.set(store).then(()=>chrome.storage.sync.get("store").then((val)=>console.log(" after deletion ",val)));
+    else await chrome.storage.local.set(store).then(()=>chrome.storage.local.get("store").then((val)=>console.log(" after deletion ",val)));
+}
 resp();
 })
     
