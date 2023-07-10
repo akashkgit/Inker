@@ -8,7 +8,7 @@ const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = MiniCssExtractPlugin.loader;
 const config = {
-  devtool: "cheap-module-source-map",
+  devtool: "inline-cheap-source-map",
   entry: {
     popup:"./popup.tsx",
     cS1:"./cS1.tsx",

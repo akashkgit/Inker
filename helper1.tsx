@@ -18,6 +18,7 @@ export let initSync = (controls:{},setControls:(cont:{})=>void)=>{
                 console.log("not found in sync sstorage ");
                 chrome.storage.sync.set({
                     "controls":controls,
+                    "store":{}
                 }).then(async ()=>{
                     let res= await chrome.storage.sync.get("controls")
                     console.log(" fetched data",res.controls,res);
@@ -25,7 +26,7 @@ export let initSync = (controls:{},setControls:(cont:{})=>void)=>{
             }
             else{
                 console.log(" prefetching old records found in sync storage....")
-                chrome.storage.sync.get(null, (val) => {
+                chrome.storage.sync.get("controls").then((val) => {
                     setControls({...(val.controls)})
 
 
@@ -35,6 +36,7 @@ export let initSync = (controls:{},setControls:(cont:{})=>void)=>{
 
         })
         chrome.storage.onChanged.addListener((changes, namespace) => {
+            
             console.log(namespace," changed",changes);
             if(changes && changes.controls && changes.controls.newValue){
             console.log(changes);
@@ -51,7 +53,7 @@ export let initSync = (controls:{},setControls:(cont:{})=>void)=>{
             }
             
 
-            
+        
           });
           
 

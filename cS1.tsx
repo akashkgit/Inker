@@ -1,6 +1,51 @@
-console.log("loaded cs");
+import { checkIfInked, storeSelected } from "./csHelper";
+//------- unling pallete -------------
 
+
+let unlink=document.createElement("p");
+document.body.appendChild(unlink)
+unlink.innerHTML="Unlink";
+unlink.style.border="1px solid black";
+unlink.style.backgroundColor=" grey";
+
+unlink.id="unlink";
+unlink.style.position="absolute";
+unlink.style.top="10px";
+unlink.style.left="10px";
+unlink.style.display="none";
+unlink.style.zIndex="100";
+unlink.style.opacity="0.5";
+unlink.style.width="300px";
+unlink.style.height="300px"
+unlink.addEventListener("click",(ev)=>{
+let el=(ev.target as HTMLParagraphElement)
+let elToBeRemoved=el.dataset.remove;
+console.log(" Removing ",elToBeRemoved,document.getElementById(elToBeRemoved))
+document.body.removeChild(document.getElementById(elToBeRemoved));
+
+})
+
+
+
+console.log("loaded cs");
+document.addEventListener("click",async (ev)=>{
+        //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
+        let found= await checkIfInked(ev);
+        console.log("element found: ",found);
+        if(found){ unlink.style.display="block";unlink.dataset["remove"]=(ev.target as HTMLDivElement).id;}
+
+
+    })  
+
+
+
+
+
+
+
+//----------------------------
 chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
+    
     console.log(" recieved details");
     
     const req=request;
@@ -24,6 +69,8 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
             
             let x=window.scrollX;
             let y=window.scrollY
+            
+
             let bx = Object.entries(boxes).map((val, id) => {
                     let div = document.createElement("div");
                     console.log(" val ", val);
@@ -56,9 +103,11 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                     //-----------------------------------------
                    (document.body).appendChild(div);
                     div.style.position = "absolute";
-                    return div;
+                    return (div as HTMLDivElement);
                     
             });
+            console.log(" b4 storing bx array ",bx)
+            await storeSelected(bx,request)
             console.log(bx);
             
     }

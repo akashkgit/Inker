@@ -1,5 +1,7 @@
-chrome.runtime.onInstalled.addListener((ev)=>{
-    
+chrome.runtime.onInstalled.addListener(async (ev)=>{
+    await chrome.storage.sync.clear()
+    await chrome.storage.local.clear()
+     
     
     console.log(" installed ");
     
@@ -29,6 +31,7 @@ chrome.runtime.onInstalled.addListener((ev)=>{
         parentId:"Inker"
     })
     chrome.contextMenus.onClicked.addListener(async (ev)=>{
+        console.log(" the frame id is ",ev.frameId)
         console.log(ev.menuItemId)
         const chosenId=ev.menuItemId;
         
