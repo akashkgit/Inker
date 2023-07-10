@@ -33457,7 +33457,7 @@ function App() {
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", null, "\u00A0\u00A0\u00A0"),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: "sync" }, "Sync")),
                 react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { className: 'flex2i' },
-                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { value: controls.thickness, type: "range", onChange: uControlsBasicHandler, id: "thickness" }),
+                    react__WEBPACK_IMPORTED_MODULE_0___default().createElement("input", { value: controls.thickness, defaultValue: 2, min: 0.1, max: 3, type: "range", onChange: uControlsBasicHandler, id: "thickness" }),
                     react__WEBPACK_IMPORTED_MODULE_0___default().createElement("label", { htmlFor: 'thickness', className: 'thickness' }, "Thickness")))));
 }
 

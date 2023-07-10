@@ -1,4 +1,6 @@
 chrome.runtime.onInstalled.addListener((ev)=>{
+    
+    
     console.log(" installed ");
     
     chrome.contextMenus.create({
@@ -30,10 +32,14 @@ chrome.runtime.onInstalled.addListener((ev)=>{
         console.log(ev.menuItemId)
         const chosenId=ev.menuItemId;
         
-    
         const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
         console.log(tab.id);
+        try{
         const response = await chrome.tabs.sendMessage(tab.id, {ev});
+        }
+        catch{
+            console.log(" !!! ERROR")
+        }
         //console.log(response);
         //console.log("clicked");
         //console.log(ev.selectionText)

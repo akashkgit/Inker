@@ -46,7 +46,12 @@ chrome.runtime.onInstalled.addListener((ev) => {
         const chosenId = ev.menuItemId;
         const [tab] = yield chrome.tabs.query({ active: true, lastFocusedWindow: true });
         console.log(tab.id);
-        const response = yield chrome.tabs.sendMessage(tab.id, { ev });
+        try {
+            const response = yield chrome.tabs.sendMessage(tab.id, { ev });
+        }
+        catch (_a) {
+            console.log(" !!! ERROR");
+        }
         //console.log(response);
         //console.log("clicked");
         //console.log(ev.selectionText)

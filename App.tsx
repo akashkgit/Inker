@@ -68,7 +68,7 @@ export function App() {
                 <input type="checkbox" checked={controls.sync} id="sync"  onChange={uControlsBasicHandler}/><span>&nbsp;&nbsp;&nbsp;</span><label htmlFor="sync">Sync</label>
             </div>
             <div className='flex2i'>
-                <input value={controls.thickness} type="range" onChange={uControlsBasicHandler} id="thickness" />
+                <input value={controls.thickness} defaultValue={2} min={0.1} max={3} type="range" onChange={uControlsBasicHandler} id="thickness" />
                 <label htmlFor='thickness' className='thickness'>Thickness</label>
             </div>
         </div>
