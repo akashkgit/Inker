@@ -6,23 +6,38 @@
 
     margin:auto;
     width:80%;
-    height:60%;
+    height:100%;
     padding:2%;
     margin-top:15%;
     border:1px solid grey;
     overflow: hidden;
 }
+.Docs{
+  grid-column-start: 1;
+  grid-column-end: 3;
+  display:flex;
+
+  gap:2em;
+  background-color: grey;
+}
+button{
+    width:auto;
+    padding:0;
+}
 .app{    
     font-family: 'Roboto Slab', serif;
    
     display:grid;
+    row-gap: 1em;
     
   
-    grid-template: repeat(1,1fr)/40% auto;
+    grid-template: 80% auto /40% auto;
     
 }
 
-
+.flex3{
+    
+}
 
 input[type=range]{
     

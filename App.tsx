@@ -2,6 +2,7 @@ import React, { ChangeEvent } from 'react'
 import "./app.css";
 import { useState, useEffect } from 'react';
 import { initSync, syncHandler, uControlsHandler } from "./helper1";
+import { Docs } from './Docs';
 
 export function App() {
     
@@ -71,16 +72,10 @@ export function App() {
                 <input value={controls.thickness} defaultValue={2} min={0.1} max={3} type="range" onChange={uControlsBasicHandler} id="thickness" />
                 <label htmlFor='thickness' className='thickness'>Thickness</label>
             </div>
+  
         </div>
-
-
-
-
-
+        <Docs />
     </div>
-
-
-
     </div>
 
 }
