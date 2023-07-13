@@ -3,6 +3,8 @@ import "./app.css";
 import { useState, useEffect } from 'react';
 import { initSync, syncHandler, uControlsHandler } from "./helper1";
 import { Docs } from './Docs';
+import { Selection } from './Selection';
+
 
 export function App() {
     
@@ -75,7 +77,10 @@ export function App() {
   
         </div>
         <Docs />
+        <Selection />
+        
     </div>
+
     </div>
 
 }

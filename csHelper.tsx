@@ -72,3 +72,78 @@ export let checkIfInked=async(event:Event)=>{
     return false;
 
 }
+export async function insert(docsId:string,heading:string,level:string,startIndex:number,text:string){
+
+    let token=await chrome.storage.sync.get("token");
+                if(token==undefined)token=await chrome.storage.local.get("token")
+                console.log("token",token)
+                let body={
+                    "requests": [
+                      {
+                        "insertText": {
+                          "text": `\n${heading}`,
+                          "endOfSegmentLocation": {
+                            "segmentId": ""
+                          }
+                        }
+                      },
+                      {
+                        "updateParagraphStyle": {
+                          "paragraphStyle": {
+                            "namedStyleType": `HEADING_${level}`
+                          },
+                          "fields": "namedStyleType",
+                          "range": {
+                            "segmentId": "",
+                            "startIndex": startIndex,
+                            "endIndex": startIndex+heading.length
+                          }
+                        }
+                      },
+                      {
+                        
+                        "insertText": {
+                          "text": `\n${text}`,
+                          "endOfSegmentLocation": {
+                            "segmentId": ""
+                          }
+                        }
+                      },
+                      {
+                        "updateParagraphStyle": {
+                          "paragraphStyle": {
+                            "namedStyleType": `NORMAL_TEXT`
+                          },
+                          "fields": "namedStyleType",
+                          "range": {
+                            "segmentId": "",
+                            "startIndex": startIndex+heading.length+1,
+                            "endIndex": startIndex+heading.length+1+text.length
+                          }
+                        }
+                      }
+                      
+                    ]
+                  }
+                  console.log("selected string ",text);
+                let reqBody=JSON.stringify(body);
+                
+                
+                let init:any={
+                        method:"POST",
+                        "async":true,
+                        body:reqBody,
+                        headers:{
+                        Authorization: "Bearer "+token.token,
+                        "Content-Type":"Application/json",
+                        },
+                        "contentType":"json",
+                       
+                    };
+                    fetch(` https://docs.googleapis.com/v1/documents/${docsId}:batchUpdate`,init).then((resp)=>console.log("success")).catch((e)=>console.log("Error ",e))
+
+
+                
+
+
+}

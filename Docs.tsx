@@ -3,6 +3,7 @@ import "./app.css";
 import { useState, useEffect } from 'react';
 import { initSync, syncHandler, uControlsHandler } from "./helper1";
 import { auth } from './auth';
+import { Selection } from './Selection';
 
 export function Docs(){
     

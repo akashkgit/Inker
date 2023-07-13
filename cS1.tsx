@@ -1,7 +1,81 @@
-import { checkIfInked, storeSelected } from "./csHelper";
+import { checkIfInked, insert, storeSelected } from "./csHelper";
+import React from "react";
+import { createRoot } from "react-dom/client";
+import  "./cs1.css"
+let text="";
 //------- unling pallete -------------
 
+//-------- save to doc palette ---------
 
+async function postData(event:any){
+        let level=document.getElementById("hLevel")
+        let heading=document.getElementById("heading")
+        let sync=true;
+        let docsId=await chrome.storage.sync.get("docsId");
+        if(docsId===undefined){docsId=await chrome.storage.local.get("docsId");sync=false;}
+        //--- getting last index of that 
+        
+                console.log(docsId)
+                let token=await chrome.storage.sync.get("token");
+                if(token==undefined)token=await chrome.storage.local.get("token")
+                console.log("token",token," docsId ",docsId)
+                let init:any={
+                        method:"GET",
+                        "async":true,
+                        headers:{
+                        Authorization: "Bearer "+token.token,
+                        "Content-Type":"Application/json",
+                        },
+                        "contentType":"json",
+                       
+                    };
+
+                    fetch(`https://docs.googleapis.com/v1/documents/${docsId.docsId}`,init).then(async (resp)=>{
+
+                    let jsonVal:any=await resp.json();
+                    console.log("json ",jsonVal.documentId);
+                    let arr=jsonVal.body.content
+                    let len=arr.length;
+                    console.log(typeof arr[len-1].endIndex);
+                    insert(jsonVal.documentId,(document.getElementById("heading") as HTMLInputElement).value,(document.getElementById("hLevel") as HTMLSelectElement).value,arr[len-1].endIndex,text);
+                    
+
+
+
+                    })
+        
+
+}
+function Std(){
+
+        return <>
+        <div  className="std"  id="stdDiv">
+                <label htmlFor="heading" >Heading</label>
+                <input type="text" id="heading"></input>
+                <select id="hLevel">
+                        <option value="1">1</option>
+                        <option value="1">2</option>
+                        <option value="1">3</option>
+                        <option value="1">4</option>
+                        <option value="1">5</option>
+                </select>
+                <button id="saveToDoc" onClick={postData}>Save to Docs</button>
+                <button id="close" onClick={()=>document.getElementById("stdDiv").style.display="none"}> X </button>
+        </div>
+        </>
+}
+let rdiv=document.createElement("div")
+rdiv.setAttribute("id","rdiv");
+rdiv.className="rdivClass"
+// rdiv.style.position="absolute"
+// rdiv.style.top="0px";
+// rdiv.style.bottom="0px";
+document.body.appendChild(rdiv);
+let root=createRoot(rdiv);
+root.render(<><Std /></>)
+
+
+//--------------------------------------
 let unlinkSingle = document.createElement("p");
 
 unlinkSingle.innerHTML = "Unlink this";
@@ -172,6 +246,30 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
 
                 if (sync) await chrome.storage.sync.set(store).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
                 else await chrome.storage.local.set(store).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
+        }
+        else if(req.ev.menuItemId === "saveToDoc"){
+                console.log(" clicked save to doc")
+                text=window.getSelection().toString();
+                console.log("selected string I",window.getSelection().toString());
+                let stdDiv=document.getElementById("stdDiv");
+                console.log(" saving doc clicked ",stdDiv.style.display)
+                document.getElementById("stdDiv").style.display="block";
+                let x=window.scrollX;
+                let y=window.scrollY;
+                let selection=window.getSelection();
+                let range=selection.getRangeAt(0);
+                let boxes=range.getClientRects();
+                let bx=boxes[0].x;
+                let by=boxes[0].y;
+                console.log(boxes[0]);
+                stdDiv.style.left=`${(bx+x)}px`
+                stdDiv.style.top=`${(by+y)}px`
+
+
+                let data={
+
+        }
+
         }
         resp();
 })

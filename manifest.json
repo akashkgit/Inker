@@ -28,7 +28,8 @@
       ],
       "js": [
         "cS1.js"
-      ]
+      ],
+      "css":["cs1.css"]
     }
   ],
   "background": {
