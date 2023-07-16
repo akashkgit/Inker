@@ -1,112 +1,113 @@
-/*!***********************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./app.css ***!
-  \***********************************************************/
-@import url(https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap);
-/*!***************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js!./app.css (1) ***!
-  \***************************************************************/
-
-
-  .top{
-
-    margin:auto;
-    width:80%;
-    height:100%;
-    padding:2%;
-    margin-top:15%;
-    border:1px solid grey;
-    overflow: hidden;
-}
-.Docs{
-  grid-column-start: 1;
-  grid-column-end: 3;
-  display:flex;
-
-  gap:2em;
-  background-color: grey;
-}
-button{
-    width:auto;
-    padding:0;
-}
-.app{    
-    font-family: 'Roboto Slab', serif;
-   
-    display:grid;
-    row-gap: 1em;
-    
-  
-    grid-template: 80% auto /40% auto;
-    
-}
-
-.flex3{
-    
-}
-
-input[type=range]{
-    
-    top:40%;left:70%;
-    width:55%;
-
-    
-}
-
-#level{
-
-    width:60%;
-}
-label.thickness{
-    position:relative;
-    
-}
-.flex{
-    display:flex;
-    
-    grid-column-start: 1;
-    background-color: rgb(232, 229, 220);
-    grid-column-start: 1;
-    grid-column-end: 2;  
-    flex-wrap: wrap; 
-    align-items: center;
-
-}
-
-
-
-
-.flex2{
-    display:flex;
-    flex-direction: column;
-    gap:1em;
-    align-content:space-between;
-
-}
-.flex2i{
-    display: flex;
-    gap:0px;
-    padding:5%;
-    align-items: center;
-    width:100%;
-    align-content: center;
-    
-}
-select,input[type=color]{
-    width:100%;
-    border-radius: 0.3em;
-    border:1px solid black;
-}
-input[type=color]{
-    width:55%;
-    
-    
-}
 /*!*************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./popup.css ***!
   \*************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Belanosima&display=swap);
+/*!*****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./popup.css (1) ***!
+  \*****************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap);
+/*!*****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./popup.css (2) ***!
+  \*****************************************************************/
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Nunito+Sans:ital,wght@1,300&family=Ysabeau+Infant:wght@200&display=swap);
+/*!***********************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./app.css ***!
+  \***********************************************************/
+.container{
+    display:grid;
+    grid-template: 1fr / 40% auto;
+    height:100%;
+    width:100%;
+    box-shadow: 0px 0px 5px 2px rgba(149, 137, 113, 0.84);
+ 
+}
+#popup{
+    display:none;
+    background-color:blue;
+    position:absolute;
+    top:50%;
+    z-index: 1;
+    left:40%;
+    
+} 
+
+
+
+.grid1{
+    display:flex;
+    flex-direction: column;
+   background-color:  rgba(202, 197, 187, 0.862);
+    padding-left:7%;
+    padding-top:7%;
+    gap:5%;
+    position:relative;
+    
+    
+    
+}
+.grid2{
+    display:flex;
+    flex-direction: column;
+    
+}
+.grid1  select:not(#thickness){
+    width:80%;
+    
+}
+#thickness{
+    width:60%;
+    
+}
+/*!*****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./selection.css ***!
+  \*****************************************************************/
+#Selection{
+    display:flex;
+    flex-direction: column;
+    
+    gap:9%;
+    background-color: rgba(202, 197, 187, 0.433);
+    padding:4%;
+   
+}
+
+#toggler{
+    visibility: hidden;
+}
+/*!*****************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./popup.css (3) ***!
+  \*****************************************************************/
+/* @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap'); */
 body{
-  width:400px;
-  height:600px;
+  width:350px;
+  height:200px;
   margin:0;
+  padding-right:5%;
+  padding:1%;
+  box-sizing: border-box;
+  
+  font-family: 'Belanosima', sans-serif;
+  
+
   
 }
+
+input,select,button{
+  
+  font-weight: 1em;
+  background-color: rgba(202, 197, 187, 0.285);
+  border: 0px solid rgba(202, 197, 187, 0.285);
+
+}
+option{
+  background-color: rgba(8, 8, 8, 0.451);
+  border: 0px solid rgba(202, 197, 187, 0.451);
+}
+input,select{
+font-family: 'Ysabeau Infant', sans-serif;
+}
+button{
+  font-family: 'Belanosima', sans-serif;
+}
+

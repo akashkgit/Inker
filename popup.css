@@ -1,6 +1,36 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Belanosima&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Nunito+Sans:ital,wght@1,300&family=Ysabeau+Infant:wght@200&display=swap');
 body{
-  width:400px;
-  height:600px;
+  width:350px;
+  height:200px;
   margin:0;
+  padding-right:5%;
+  padding:1%;
+  box-sizing: border-box;
   
+  font-family: 'Belanosima', sans-serif;
+  
+
+  
+}
+
+input,select,button{
+  
+  font-weight: 1em;
+  background-color: rgba(202, 197, 187, 0.285);
+  border: 0px solid rgba(202, 197, 187, 0.285);
+
+}
+option{
+  background-color: rgba(8, 8, 8, 0.451);
+  border: 0px solid rgba(202, 197, 187, 0.451);
+}
+input,select{
+font-family: 'Ysabeau Infant', sans-serif;
+}
+button{
+  font-family: 'Belanosima', sans-serif;
 }

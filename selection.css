@@ -1,0 +1,13 @@
+#Selection{
+    display:flex;
+    flex-direction: column;
+    
+    gap:9%;
+    background-color: rgba(202, 197, 187, 0.433);
+    padding:4%;
+   
+}
+
+#toggler{
+    visibility: hidden;
+}

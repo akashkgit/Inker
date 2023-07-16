@@ -19,14 +19,14 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
     
     chrome.contextMenus.create({
         id:"inkIt",
-        title:"🖍️Ink It!",
+        title:"Ink It!",
         contexts:["all"],
         parentId:"Inker"
     
     })
     chrome.contextMenus.create({
         id:"unInk",
-        title:"unInk",
+        title:"Un-Ink",
         contexts:["all"],
         parentId:"Inker"
     })

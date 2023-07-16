@@ -20,8 +20,11 @@ export function Docs(){
 
     return < div className='Docs'>
     <label htmlFor='signedUser' style={{display:signedUser!==""?"block":"none"}}>Signedin  as</label>
-    <button value={signedUser} onClick={(ev)=>auth(signedUser,setSignedUser,ev)} id="signedUser">{signedUser}</button>
-    <button id="signOut" onClick={(ev)=>auth(signedUser,setSignedUser,ev)}  style={{display:signedUser!==""?"block":"none"}}>sign out</button>
+    <select id="signedUser" >
+    <option value={signedUser} onClick={(ev)=>auth(signedUser,setSignedUser,ev)} id="signedUser">{signedUser}</option>
+    <option id="changeUser" onClick={(ev)=>auth(signedUser,setSignedUser,ev)}  style={{display:signedUser!==""?"block":"none"}}>Change User</option>
+    <option id="signOut" onClick={(ev)=>auth(signedUser,setSignedUser,ev)}  style={{display:signedUser!==""?"block":"none"}}>sign out</option>
+    </select>
     
     </div>
 }

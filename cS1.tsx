@@ -1,5 +1,5 @@
 import { checkIfInked, insert, storeSelected } from "./csHelper";
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { createRoot } from "react-dom/client";
 import  "./cs1.css"
 let text="";
@@ -47,33 +47,96 @@ async function postData(event:any){
 
 }
 function Std(){
-
+     
         return <>
-        <div  className="std"  id="stdDiv">
-                <label htmlFor="heading" >Heading</label>
-                <input type="text" id="heading"></input>
+        
+        <div  className="std" onMouseDown={mousedown}    id="stdDiv">
+        
+                <div id="heading">
+                <div>
+                
+                <input placeholder="headline" type="text" id="heading"></input>
+                </div>
+                <button id="drag" >drag</button>
+                </div>
+                <div id="body">
+                <div id="hLevel">
+                <label htmlFor="hLevel">Heading Text </label>                        
                 <select id="hLevel">
-                        <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">3</option>
-                        <option value="1">4</option>
-                        <option value="1">5</option>
+                        <option value="1">Level 1</option>
+                        <option value="1">Level 2</option>
+                        <option value="1">Level 3</option>
+                        <option value="1">Level 4</option>
+                        <option value="1">Level 5</option>
                 </select>
-                <button id="saveToDoc" onClick={postData}>Save to Docs</button>
+                </div>
+                
+                <div id="iLevel">
+                <label htmlFor="Inked Text">Inked Text</label>                        
+                <select id="hLevel">
+                        <option value="1">Level 1</option>
+                        <option value="1">Level 2</option>
+                        <option value="1">Level 3</option>
+                        <option value="1">Level 4</option>
+                        <option value="1">Level 5</option>
+                </select>
+                </div>
+                <div id="saveRclose">
+                <button id="saveToDoc" onClick={postData}>Save</button>
                 <button id="close" onClick={()=>document.getElementById("stdDiv").style.display="none"}> X </button>
+                </div>
+        </div>
         </div>
         </>
 }
+function mousemove(ev:any){
+        let rdiv=document.querySelector("#stdDiv") as HTMLDivElement;
+        ev =ev || window.Event;
+        console.log(" mouse moving ");
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.cancelBubble=true;
+        ev.returnValue=false;
+        console.log(ev.pageX,ev.pageY,ev)
+        rdiv.style.top=`${ev.pageY}px`
+        rdiv.style.left=`${ev.pageX}px`
+        return false;
+
+}
+function mouseup(ev:any){
+        let rdiv=document.querySelector("#stdDiv") as HTMLDivElement;
+        rdiv.style.top=`${ev.pageY}px`
+        rdiv.style.left=`${ev.pageX}px`
+        document.removeEventListener("mousemove",mousemove)
+        document.removeEventListener("mouseup",mouseup)
+}
+function mousedown(ev:any){
+        console.log("mousedown");
+        ev =ev || window.Event;
+        
+        ev.preventDefault();
+        ev.stopPropagation();
+        ev.cancelBubble=true;
+        ev.returnValue=false;
+        
+        document.addEventListener("mousemove",mousemove);
+        document.addEventListener("mouseup",mouseup);
+        return false;
+}
 let rdiv=document.createElement("div")
 rdiv.setAttribute("id","rdiv");
-rdiv.className="rdivClass"
+
+
 // rdiv.style.position="absolute"
 // rdiv.style.top="0px";
 // rdiv.style.bottom="0px";
 document.body.appendChild(rdiv);
 let root=createRoot(rdiv);
+
 root.render(<><Std /></>)
 
+let stdDiv=document.querySelector("#stdDiv");
+// stdDiv.addEventListener("mousedown",mousedown);
 
 //--------------------------------------
 let unlinkSingle = document.createElement("p");
@@ -126,7 +189,7 @@ pdiv.style.position = "absolute";
 pdiv.style.top = "10px";
 
 pdiv.style.left = "10px";
-pdiv.style.display = "none";
+pdiv.style.display = "none"; 
 pdiv.style.zIndex = "100";
 pdiv.style.opacity = "0.5";
 pdiv.style.width = "200px";

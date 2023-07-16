@@ -1,0 +1,25 @@
+<html>
+    <body>
+
+        <div id="draggy">Draggy</div>
+        <script>
+            function mousemove(){
+                console.log("mouse moving")
+            }
+            let draggy=document.querySelector("#draggy")
+            draggy.addEventListener("mousedown",(e)=>{
+                e.preventDefault();
+                console.log("mouse down");
+                document.addEventListener("mousemove",mousemove);
+               
+                document.addEventListener("mouseup",mouseup)
+
+            })
+            
+            function mouseup(){
+                document.removeEventListener("mousemove",mousemove)
+                document.removeEventListener("mouseup",mouseup);
+            }
+        </script>
+    </body>
+</html>

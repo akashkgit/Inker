@@ -1,98 +1,45 @@
-
-
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@200&display=swap');
-
-.top{
-
-    margin:auto;
-    width:80%;
-    height:100%;
-    padding:2%;
-    margin-top:15%;
-    border:1px solid grey;
-    overflow: hidden;
-}
-.Docs{
-  grid-column-start: 1;
-  grid-column-end: 3;
-  display:flex;
-
-  gap:2em;
-  background-color: grey;
-}
-button{
-    width:auto;
-    padding:0;
-}
-.app{    
-    font-family: 'Roboto Slab', serif;
-   
+.container{
     display:grid;
-    row-gap: 1em;
-    
-  
-    grid-template: 80% auto /40% auto;
-    
+    grid-template: 1fr / 40% auto;
+    height:100%;
+    width:100%;
+    box-shadow: 0px 0px 5px 2px rgba(149, 137, 113, 0.84);
+ 
 }
-
-.flex3{
+#popup{
+    display:none;
+    background-color:blue;
+    position:absolute;
+    top:50%;
+    z-index: 1;
+    left:40%;
     
-}
-
-input[type=range]{
-    
-    top:40%;left:70%;
-    width:55%;
-
-    
-}
-
-#level{
-
-    width:60%;
-}
-label.thickness{
-    position:relative;
-    
-}
-.flex{
-    display:flex;
-    
-    grid-column-start: 1;
-    background-color: rgb(232, 229, 220);
-    grid-column-start: 1;
-    grid-column-end: 2;  
-    flex-wrap: wrap; 
-    align-items: center;
-
-}
+} 
 
 
 
-
-.flex2{
+.grid1{
     display:flex;
     flex-direction: column;
-    gap:1em;
-    align-content:space-between;
-
-}
-.flex2i{
-    display: flex;
-    gap:0px;
-    padding:5%;
-    align-items: center;
-    width:100%;
-    align-content: center;
+   background-color:  rgba(202, 197, 187, 0.862);
+    padding-left:7%;
+    padding-top:7%;
+    gap:5%;
+    position:relative;
+    
+    
     
 }
-select,input[type=color]{
-    width:100%;
-    border-radius: 0.3em;
-    border:1px solid black;
-}
-input[type=color]{
-    width:55%;
+.grid2{
+    display:flex;
+    flex-direction: column;
     
+}
+.grid1  select:not(#thickness){
+    width:80%;
+    
+}
+#thickness{
+    width:60%;
     
 }
