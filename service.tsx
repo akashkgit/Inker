@@ -1,6 +1,23 @@
 chrome.runtime.onInstalled.addListener(async (ev)=>{
-    await chrome.storage.sync.clear()
-    await chrome.storage.local.clear()
+    let sync=await chrome.storage.sync.get("sync");
+    if(sync.sync===true){
+        
+    } 
+    else if(sync.sync===false){
+
+    } 
+    else{
+        console.log(" loading data for first time ",sync.sync,sync);
+        let payLoad={
+            "lineStyle":"dotted",
+            "colorPicker":"black",
+            "thickness":"thickness",
+            "sync":true
+        }
+         
+       chrome.storage.sync.set({"controls":payLoad,"sync":true});
+    }
+    
      
     
     console.log(" installed ");

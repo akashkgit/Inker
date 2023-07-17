@@ -1,8 +1,10 @@
 import { checkIfInked, insert, storeSelected } from "./csHelper";
 import React, { MouseEventHandler } from "react";
+
 import { createRoot } from "react-dom/client";
 import  "./cs1.css"
 let text="";
+const drag=require("./drag.png");
 //------- unling pallete -------------
 
 //-------- save to doc palette ---------
@@ -50,14 +52,16 @@ function Std(){
      
         return <>
         
-        <div  className="std" onMouseDown={mousedown}    id="stdDiv">
+        <div  className="std"     id="stdDiv">
         
                 <div id="heading">
-                <div>
+                
                 
                 <input placeholder="headline" type="text" id="heading"></input>
-                </div>
-                <button id="drag" >drag</button>
+                
+                <img id="drag" src={drag} onMouseDown={mousedown} />
+                
+                
                 </div>
                 <div id="body">
                 <div id="hLevel">
@@ -316,7 +320,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                 console.log("selected string I",window.getSelection().toString());
                 let stdDiv=document.getElementById("stdDiv");
                 console.log(" saving doc clicked ",stdDiv.style.display)
-                document.getElementById("stdDiv").style.display="block";
+                document.getElementById("stdDiv").style.display="grid";
                 let x=window.scrollX;
                 let y=window.scrollY;
                 let selection=window.getSelection();

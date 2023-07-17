@@ -2,62 +2,52 @@ import { ChangeEvent, useEffect } from "react";
 
 //-------------- Initialization code ------------
 export let initSync = (controls:{},setControls:(cont:{})=>void)=>{
+   // console.log(" init sync ");
     return useEffect(() => {
-
-        console.log(" running useeffect for inital sync fetching...")
-        console.log("passed in sync ", controls);
-        chrome.storage.sync.get(["controls"]).then((val) => {
-            console.log(" sync parent object obtained ", val);
-            let ls: HTMLSelectElement = document.querySelector("#lineStyle")
-            let style: HTMLSelectElement = document.querySelector("#style")
-            let sNe: HTMLInputElement = document.querySelector("#sNe")
-            let full: HTMLInputElement = document.querySelector("#full")
-            let colorPicker: HTMLInputElement = document.querySelector("#colorPicker")
-            let thickness: HTMLInputElement = document.querySelector("#thickness")
-            if (val === undefined || val.controls === undefined) {
-                console.log("not found in sync sstorage ");
-                chrome.storage.sync.set({
-                    "controls":controls,
-                    "store":{}
-                }).then(async ()=>{
-                    let res= await chrome.storage.sync.get("controls")
-                    console.log(" fetched data",res.controls,res);
+        //------loading data from storage------
+      //  console.log("use effect:::loading data from storage");
+        chrome.storage.sync.get("sync").then(({sync})=>{
+            if(sync===true){
+              //  console.log(" sync found to be true");
+                chrome.storage.sync.get("controls").then(({controls})=>{
+                  //  console.log(" copying controls ",controls)   
+                    
+                    setControls(controls);
                 })
+            }
+            else if(sync===false){
+              //  console.log(" sync found to be false");
+                chrome.storage.local.get("controls").then(({controls})=>{
+                 //   console.log(" copying controls ",controls)   
+                    setControls(controls);
+            })
             }
             else{
-                console.log(" prefetching old records found in sync storage....")
-                chrome.storage.sync.get("controls").then((val) => {
-                    setControls({...(val.controls)})
-
-
-                })
+                console.log(" sync found to be undefined ",sync)
             }
-            //        chrome.storage.sync.remove("sync");
-
         })
-        chrome.storage.onChanged.addListener((changes, namespace) => {
+       
+          
+//--- handle storage change
+        chrome.storage.onChanged.addListener(async (changes, namespace) => {
             
             console.log(namespace," changed",changes);
-            if(changes && changes.controls && changes.controls.newValue){
-            console.log(changes);
-            // for (let [key, { oldValue, newValue }] of Object.entries(changes)) {
-            // //   console.log(
-            // //     `Storage key "${key}" in namespace "${namespace}" changed.`,
-            // //     `Old value was "${oldValue}", new value is "${newValue}".`
-
-            // //   );
-            console.log(" new value ",changes.controls.newValue)
-              
-             setControls(changes.controls.newValue)
-            //}
+            let sync=await chrome.storage.sync.get("sync");
+            if(sync && namespace==="sync"){
+                    if(changes.controls)setControls(changes.controls.newValue)
+            }
+            else if(!sync && namespace==="local"){
+                if(changes.controls)setControls(changes.controls.newValue)
             }
             
-
+            
+        
+           
+            
+        
         
           });
-          
-
-
+        
 
     }, [
 
@@ -87,23 +77,56 @@ export let syncHandler = (val: ChangeEvent<HTMLInputElement>, sync: boolean, set
 
 export let uControlsHandler = async (val: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>, setControls: (val: {}) => void,controls:any,typedec:any) => {
     console.log(" controls before changing ",controls)
+    let cachedId=val.target.id;
+    let cachedVal=val.target.value;
+
+        
+    console.log(" checking 2",val.target.id,val.target.value)
     let toBeStored:any = {...controls};
-    toBeStored[val.target.id]=(val.target.id==="sNe" ||val.target.id==="sync")?  (val.target as HTMLInputElement).checked:(val.target.value);
-    console.log(" controls after changing ",toBeStored)
-    let res = await chrome.storage.sync.get("controls");
-    console.log(" storing ",toBeStored,"id ",val.target.id,"val ",val.target.id," key[id] ", toBeStored[val.target.id])
-    if(toBeStored.sync === false){
-        //-------- local case
-        console.log("stoing in local")
-        chrome.storage.local.set({"controls":toBeStored}) 
-        if(controls.sync === true)chrome.storage.sync.clear().then(()=>console.log("cleareed sync storage"))
+    
+    let {sync}=await chrome.storage.sync.get("sync"); 
+    
+    console.log(" checking 3",cachedId,cachedVal);
+    if(val.target.id==="sync"){
+
     }
     else{
-
-        //------ sync storage
-        console.log("stoing in sync")
-        if(controls.sync === false)chrome.storage.local.clear().then(()=>console.log("cleareed local storage"))
-        chrome.storage.sync.set({"controls":toBeStored}) 
+        console.log("!!!!!",cachedId,cachedVal)
+        let toBeStored={"controls":{...controls,[cachedId]:cachedVal}};
+        console.log(" storing ",toBeStored," ",[cachedId],cachedVal)
+        if(sync) chrome.storage.sync.set(toBeStored);
+        else chrome.storage.local.set(toBeStored)
+        setControls(toBeStored.controls)
+        
     }
+   
+
 }
 
+//---------------- Docs handler ---------------
+
+export async function DocsPreLoader(doc:{[key:string]:string},setDoc:any,user:string){
+ //console.group("preloading docs")
+    
+    let {sync}=await chrome.storage.sync.get("sync")
+    //console.log("sync ",sync);
+    if(sync){
+        if(user==="Not signed in!")chrome.storage.sync.set({"docs":{"title":"Not Selected","documentId":""}});
+        else{
+            let {docs}=await chrome.storage.sync.get("docs");
+    //    console.log("docs ",docs)
+        if(docs===undefined)chrome.storage.sync.set({docs});
+        else setDoc(docs);
+        }
+    }else{
+        if(user==="Not signed in!")chrome.storage.sync.set({"docs":{"title":"Not Selected","documentId":""}});
+        else{
+        let {docs}=await chrome.storage.local.get("docs");
+     //   console.log("docs ",docs)
+        if(docs===undefined)chrome.storage.local.set({docs});
+        else setDoc(docs);
+        }
+    }
+  //  console.groupEnd();
+
+}

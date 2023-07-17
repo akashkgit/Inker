@@ -7,24 +7,28 @@ import { Selection } from './Selection';
 
 export function Docs(){
     
-    const [signedUser,setSignedUser]=useState(" Sign in");
-    console.group("re rendering docs component !!!!!")
+  
+    const [signedUser,setSignedUser]=useState({"user":"Not signed in!","selectOption":"currentUser"});
+    //console.group("re rendering docs component !!!!!")
     useEffect(()=>{
       console.log(" loading identity");
      auth(signedUser,setSignedUser);
-
-
 },[]);
 
     
 
-    return < div className='Docs'>
-    <label htmlFor='signedUser' style={{display:signedUser!==""?"block":"none"}}>Signedin  as</label>
-    <select id="signedUser" >
-    <option value={signedUser} onClick={(ev)=>auth(signedUser,setSignedUser,ev)} id="signedUser">{signedUser}</option>
-    <option id="changeUser" onClick={(ev)=>auth(signedUser,setSignedUser,ev)}  style={{display:signedUser!==""?"block":"none"}}>Change User</option>
-    <option id="signOut" onClick={(ev)=>auth(signedUser,setSignedUser,ev)}  style={{display:signedUser!==""?"block":"none"}}>sign out</option>
+    return < div className='Docs' id="Docs">
+    
+  <div>
+    <label htmlFor='signedUser' >Signedin  as</label><br />
+    <select onChange={(ev)=>auth(signedUser,setSignedUser,ev)}  value={signedUser.selectOption} id="signedUser" >
+    <option value="currentUser"  id="signedUser">{signedUser.user}</option>
+    <option id="SignIn"  value="signIn" style={{display:signedUser.user==="Not signed in!"?"block":"none"}}>Sign in</option>
+    <option id="changeUser"  value="changeUser" style={{display:signedUser.user!=="Not signed in!"?"block":"none"}}>Change User</option>
+    <option id="signOut"  value="signOut" style={{display:signedUser.user!=="Not signed in!"?"block":"none"}}>sign out</option>
     </select>
+    </div>
+    <Selection user={signedUser.user}/>
     
     </div>
 }

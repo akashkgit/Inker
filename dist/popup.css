@@ -63,17 +63,26 @@
   \*****************************************************************/
 #Selection{
     display:flex;
-    flex-direction: column;
-    
+    flex-direction: column;  
     gap:9%;
-    background-color: rgba(202, 197, 187, 0.433);
-    padding:4%;
+    
+
+    height:100%;
    
 }
 
 #toggler{
     visibility: hidden;
 }
+
+#Docs{
+    display:flex;
+    flex-direction: column;
+    gap:9%;
+    background-color: rgba(202, 197, 187, 0.433);
+    padding:4%;
+}
+
 /*!*****************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./popup.css (3) ***!
   \*****************************************************************/
