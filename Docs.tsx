@@ -13,7 +13,26 @@ export function Docs(){
     useEffect(()=>{
       console.log(" loading identity");
      auth(signedUser,setSignedUser);
+     chrome.storage.onChanged.addListener(async (changes, namespace) => {
+
+      console.log("Tertiary hanlder ",namespace," changed",changes);
+      await chrome.storage.sync.get("sync").then(({sync})=>{
+      if(sync && namespace==="sync"){
+              if(changes.auth)setSignedUser(changes.auth.newValue)
+      }
+      else if(!sync && namespace==="local"){
+        if(changes.auth)setSignedUser(changes.auth.newValue)
+      }
+      
+      
+  
+     
+      
+    });
+  
+    });
 },[]);
+
 
     
 

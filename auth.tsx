@@ -11,6 +11,11 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
         if(val==="signOut"){
          //   console.log(" resetting signed user to not signed in ");
             setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
+            chrome.storage.sync.get("sync").then((val)=>{
+                if(val.sync) chrome.storage.sync.set({"auth":{"user":"Not signed in!","selectOption":"currentUser"}})
+                else chrome.storage.local.set({"auth":{"user":"Not signed in!","selectOption":"currentUser"}})
+                setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
+               })
         }
     }
   //  console.log("problem 2",(event!==undefined &&  val==="signIn"))
@@ -20,14 +25,29 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
         
     chrome.identity.getAuthToken({ interactive: interactive }, function (token) {
         if (chrome.runtime.lastError) {
-            setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
-          //  console.log(" Not SignedIn User ");
+            //setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
+            chrome.storage.sync.get("sync").then((val)=>{
+                if(val.sync) chrome.storage.sync.set({"auth":{"user":"Not signed in!","selectOption":"currentUser"}})
+                else chrome.storage.local.set({"auth":{"user":"Not signed in!","selectOption":"currentUser"}})
+                setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
+               })
+          
+            //  console.log(" Not SignedIn User ");
         }
         else {
             //    console.log('the event is not signout');
                 chrome.identity.getProfileUserInfo((info) => {
                    // console.log("setting email to ", info.email)
-                    setSignedUser({"user":info.email,"selectOption":"currentUser"});
+                   setSignedUser({"user":info.email,"selectOption":"currentUser"});
+                   console.log("hello i am here",{"auth":{"user":info.email,"selectOption":"currentUser"}})
+                   chrome.storage.sync.get("sync").then((val)=>{
+                    console.log(val.sync," is the sync")
+                    if(val.sync) chrome.storage.sync.set({"auth":{"user":info.email,"selectOption":"currentUser"}})
+                    else chrome.storage.local.set({"auth":{"user":info.email,"selectOption":"currentUser"}})
+                    
+                   })
+
+                    
                 })
             }
         
