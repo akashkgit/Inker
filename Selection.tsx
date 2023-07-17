@@ -8,7 +8,11 @@ export function  Selection({user}:any){
 
             
             function docOptionsHandler(ev:ChangeEvent<HTMLSelectElement>){
-                setDocOption(ev.target.value);
+                if(user=="Not signed in!"){
+                    alert(" Login int google account")        
+                    setDoc({"title":"Not Selected","documentId":""});
+                }
+                else setDocOption(ev.target.value);
 
             }           
             const [doc,setDoc]=useState({"title":"Not Selected","documentId":""});

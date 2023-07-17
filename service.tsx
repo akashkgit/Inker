@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
     else if(sync.sync===false){
 
     } 
-    else{
+   if(1){
         console.log(" loading data for first time ",sync.sync,sync);
         let payLoad={
             "lineStyle":"dotted",
