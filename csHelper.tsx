@@ -50,7 +50,7 @@ else await chrome.storage.local.set({"store":toBeStored}).then(()=>{
 
 
 export let checkIfInked=async(event:Event)=>{
-    let res=await chrome.storage.sync.get("store")
+    return chrome.storage.sync.get("store").then(async (res)=>{
     console.log("res ",res)
     if(!res || !res.store){
         res=await chrome.storage.local.get("store");
@@ -71,6 +71,7 @@ export let checkIfInked=async(event:Event)=>{
         if(div.id===el.id)return true;
     }
     return false;
+  });
 
 }
 export async function insert(docsId:string,heading:string,level:string,startIndex:number,text:string){

@@ -205,13 +205,14 @@ pdiv.style.position = "fixed";
 console.log("loaded cs");
 document.addEventListener("click", async (ev) => {
         //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
-        let found = await checkIfInked(ev);
+        checkIfInked(ev).then((found)=>{
         console.log("element found: ", found);
         if (found) {
                 pdiv.style.display = "block";
                 unlinkSingle.dataset["remove"] = (ev.target as HTMLDivElement).id;
                 unlinkFull.dataset["remove"] = (ev.target as HTMLDivElement).dataset.group;
         }
+});
 
 
 })
@@ -309,6 +310,12 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                 else await chrome.storage.local.set(store).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
         }
         else if(req.ev.menuItemId === "saveToDoc"){
+                
+                let {sync}=await chrome.storage.sync.get("sync")
+                let {auth}=(sync===true)?await chrome.storage.sync.get("auth"):await chrome.storage.local.get("auth")
+                console.log(" auth user ",auth.user,auth.user==="Not signed in!")
+                if(auth.user==="Not signed in!")alert("sign into ur google account and provision a document. All this can be done in the extension popup in the browser menubar!")
+                else{
                 console.log(" clicked save to doc")
                 text=window.getSelection().toString();
                 console.log("selected string I",window.getSelection().toString());
@@ -333,5 +340,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
 
         }
         resp();
+}
 })
 
