@@ -15,23 +15,32 @@ export function Docs(){
      auth(signedUser,setSignedUser);
      chrome.storage.onChanged.addListener(async (changes, namespace) => {
 
-      console.log("Tertiary hanlder ",namespace," changed",changes);
-      await chrome.storage.sync.get("sync").then(({sync})=>{
-      if(sync && namespace==="sync"){
-              if(changes.auth)setSignedUser(changes.auth.newValue)
-      }
-      else if(!sync && namespace==="local"){
-        if(changes.auth)setSignedUser(changes.auth.newValue)
-      }
-      
-      
+      console.log(" DOCS handler => ",namespace," changed",changes);
+            let {sync}=await chrome.storage.sync.get("sync");
+            console.log("sync in storage handelr20@docs.tsx ",sync," area ",namespace)
+            if(sync && namespace==="sync"){
+              console.log(" condition in sync area ",changes.auth && changes.auth.newValue && Object.keys(changes.auth.newValue).length!==0)
+                    if(changes.auth && changes.auth.newValue && Object.keys(changes.auth.newValue).length!==0){
+                        console.log(" setting controls from sync storage")
+                        setSignedUser(changes.auth.newValue)
+                    }
+            }
+            else if(!sync && namespace==="local"){
+                console.log(" condition in local area ",changes.auth && changes.auth.newValue && Object.keys(changes.auth.newValue).length!==0)
+              
+                if(changes.auth && changes.auth.newValue && Object.keys(changes.auth.newValue).length!==0){
+                    console.log(" setting controls from sync storage")
+                    setSignedUser(changes.auth.newValue)
+                }
+            }
+          })
   
      
       
-    });
+    }
   
-    });
-},[]);
+   
+,[]);
 
 
     

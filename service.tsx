@@ -6,7 +6,7 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
     else if(sync.sync===false){
 
     } 
-   if(1){
+   else {
         console.log(" loading data for first time ",sync.sync,sync);
         let payLoad={
             "lineStyle":"dotted",
@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
             "sync":true
         }
          
-       chrome.storage.sync.set({"controls":payLoad,"sync":true});
+       chrome.storage.sync.set({"controls":payLoad,"sync":true,"store":{}});
     }
     
      

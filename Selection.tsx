@@ -20,16 +20,23 @@ export function  Selection({user}:any){
 
             useEffect(()=>{
                 chrome.storage.onChanged.addListener(async (changes, namespace) => {
-            
-                    console.log("secondary hanlder ",namespace," changed",changes);
-                    let sync=await chrome.storage.sync.get("sync");
+                    console.log("SELECTION => ",namespace," changed",changes);
+                    let {sync}=await chrome.storage.sync.get("sync");
+                    console.log("sync in storage handelr 25@selection ",sync," area ",namespace)
                     if(sync && namespace==="sync"){
-                            if(changes.docs)setDoc(changes.docs.newValue)
+                        console.log(" condition in sync area ",changes.docs && changes.docs.newValue && Object.keys(changes.docs.newValue).length!==0)
+                            if(changes.docs && changes.docs.newValue && Object.keys(changes.docs.newValue).length!==0){
+                                console.log(" setting controls from sync storage")
+                                setDoc(changes.docs.newValue)
+                            }
                     }
                     else if(!sync && namespace==="local"){
-                      if(changes.docs)setDoc(changes.docs.newValue)
+                        console.log(" condition in sync area ",changes.docs && changes.docs.newValue && Object.keys(changes.docs.newValue).length!==0)
+                            if(changes.docs && changes.docs.newValue && Object.keys(changes.docs.newValue).length!==0){
+                                console.log(" setting controls from sync storage")
+                                setDoc(changes.docs.newValue)
+                            }
                     }
-                    
                     
                 
                    

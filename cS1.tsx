@@ -264,13 +264,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                         div.style.zIndex = "100";
                         //--- customizing the inked portion -----
                         console.log("controls ", Controls, Controls.style === "underline", Controls.style === "box")
-                        if (Controls.style === "box") {
-                                div.style.borderWidth = (Number(Controls.thickness) * 1) + "px";
-                                div.style.borderColor = Controls.colorPicker
-                                div.style.borderStyle = Controls.lineStyle as string;
-                                console.log(" boxing ")
-                        }
-                        else if (Controls.style === "underline") {
+                        if (true) {
                                 console.log(" underlining ", Controls.lineStyle as string)
                                 div.style.borderBottomWidth = (Number(Controls.thickness) * 1) + "px";
                                 div.style.borderBottomColor = Controls.colorPicker

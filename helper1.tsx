@@ -32,12 +32,21 @@ export let initSync = (controls:{},setControls:(cont:{})=>void)=>{
         chrome.storage.onChanged.addListener(async (changes, namespace) => {
             
             console.log(namespace," changed",changes);
-            let sync=await chrome.storage.sync.get("sync");
+            let {sync}=await chrome.storage.sync.get("sync");
+            console.log("sync in storage handelr 36@h1 ",sync," area ",namespace)
             if(sync && namespace==="sync"){
-                    if(changes.controls)setControls(changes.controls.newValue)
+                console.log(" condition in sync area ",changes.controls && changes.controls.newValue && Object.keys(changes.controls.newValue).length!==0)
+                    if(changes.controls && changes.controls.newValue && Object.keys(changes.controls.newValue).length!==0){
+                        console.log(" setting controls from sync storage")
+                        setControls(changes.controls.newValue)
+                    }
             }
             else if(!sync && namespace==="local"){
-                if(changes.controls)setControls(changes.controls.newValue)
+                console.log(" condition in local area ",changes.controls && changes.controls.newValue && Object.keys(changes.controls.newValue).length!==0)
+                if(changes.controls && changes.controls.newValue && Object.keys(changes.controls.newValue).length!==0){
+                    console.log(" setting controls from sync storage")
+                    setControls(changes.controls.newValue)
+                }
             }
             
             
@@ -78,7 +87,7 @@ export let syncHandler = (val: ChangeEvent<HTMLInputElement>, sync: boolean, set
 export let uControlsHandler = async (val: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>, setControls: (val: {}) => void,controls:any,typedec:any) => {
     console.log(" controls before changing ",controls)
     let cachedId=val.target.id;
-    let cachedVal=val.target.value;
+    let cachedVal=val.target.id=="sync"?(val.target as HTMLInputElement).checked:val.target.value;
 
         
     console.log(" checking 2",val.target.id,val.target.value)
@@ -88,6 +97,27 @@ export let uControlsHandler = async (val: ChangeEvent<HTMLInputElement> | Change
     
     console.log(" checking 3",cachedId,cachedVal);
     if(val.target.id==="sync"){
+
+        if(cachedVal=== false){
+             
+                chrome.storage.sync.get(null,(params)=>{
+                        let toBeStored={"controls":{...params.controls,"sync":false},"auth":params.auth,"docs":params.docs};
+                        chrome.storage.sync.set({"sync":false,controls:{},auth:{},docs:{}}).then(()=>{
+                            chrome.storage.local.set(toBeStored);
+                        })
+                })
+
+            
+        }
+        else{
+            chrome.storage.local.get(null,(params)=>{
+                let toBeStored={"controls":{...params.controls,"sync":true},"auth":params.auth,"docs":params.docs,"sync":true};
+                chrome.storage.sync.set(toBeStored).then(()=>{
+                    chrome.storage.local.set({"sync":true,controls:{},auth:{},docs:{}});
+                })
+        })
+
+        }
 
     }
     else{

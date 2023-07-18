@@ -51,6 +51,7 @@ else await chrome.storage.local.set({"store":toBeStored}).then(()=>{
 
 export let checkIfInked=async(event:Event)=>{
     let res=await chrome.storage.sync.get("store")
+    console.log("res ",res)
     if(!res || !res.store){
         res=await chrome.storage.local.get("store");
     }
