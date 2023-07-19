@@ -58,7 +58,7 @@ export let checkIfInked=async(event:Event)=>{
     let el=(event.target as HTMLDivElement);
     console.log("target element ",el.dataset.group,el.id)
     console.log("stored object ",res.store)
-    console.log("keying page url for records ",res.store[window.location.href])
+    console.log("keying page url for records ",res.store[window.location.href+window.location.hash],window.location.href+window.location.hash,"hash",window.location.hash," obj ",res.store)
     let record=res.store[window.location.href];
     if(!record)return false;
     if(!record[el.dataset.group])return false;

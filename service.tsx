@@ -11,7 +11,7 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
         let payLoad={
             "lineStyle":"dotted",
             "colorPicker":"black",
-            "thickness":"thickness",
+            "thickness":1,
             "sync":true
         }
          
@@ -47,6 +47,9 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
         contexts:["all"],
         parentId:"Inker"
     })
+    
+    });
+
     chrome.contextMenus.onClicked.addListener(async (ev)=>{
         console.log(" the frame id is ",ev.frameId)
         console.log(ev.menuItemId)
@@ -65,4 +68,3 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
         //console.log(ev.selectionText)
     }
     )
-    });
