@@ -12,39 +12,39 @@ const drag=require("./drag.png");
 async function postData(event:any){
         let level=document.getElementById("hLevel")
         let heading=document.getElementById("heading")
-        let sync=true;
-        let docsId=await chrome.storage.sync.get("docsId");
-        if(docsId===undefined){docsId=await chrome.storage.local.get("docsId");sync=false;}
-        //--- getting last index of that 
         
-                console.log(docsId)
-                let token=await chrome.storage.sync.get("token");
-                if(token==undefined)token=await chrome.storage.local.get("token")
-                console.log("token",token," docsId ",docsId)
+        let {sync}=await chrome.storage.sync.get("sync");
+        let {docs}=sync==true?await chrome.storage.sync.get("docs"):await chrome.storage.local.get("docs");
+
+        let {auth}=sync==true?await chrome.storage.sync.get("auth"):await chrome.storage.local.get("docs");
+       
+                console.log(" token is ",auth.token,"docs ",docs.documentId," ",docs.title);
+                
                 let init:any={
                         method:"GET",
                         "async":true,
                         headers:{
-                        Authorization: "Bearer "+token.token,
+                        Authorization: "Bearer "+auth.token,
                         "Content-Type":"Application/json",
                         },
                         "contentType":"json",
                        
                     };
 
-                    fetch(`https://docs.googleapis.com/v1/documents/${docsId.docsId}`,init).then(async (resp)=>{
+                    fetch(`https://docs.googleapis.com/v1/documents/${docs.documentId}`,init).then(async (resp)=>{
 
                     let jsonVal:any=await resp.json();
                     console.log("json ",jsonVal.documentId);
                     let arr=jsonVal.body.content
                     let len=arr.length;
                     console.log(typeof arr[len-1].endIndex);
-                    insert(jsonVal.documentId,(document.getElementById("heading") as HTMLInputElement).value,(document.getElementById("hLevel") as HTMLSelectElement).value,arr[len-1].endIndex,text);
+                    insert(jsonVal.documentId,(document.getElementById("headingField") as HTMLInputElement).value,(document.getElementById("hLevelSelect") as HTMLSelectElement).value,(document.getElementById("textLevel") as HTMLSelectElement).value,arr[len-1].endIndex,text);
                     
 
 
 
                     })
+                
         
 
 }
@@ -57,7 +57,7 @@ function Std(){
                 <div id="heading">
                 
                 
-                <input placeholder="headline" type="text" id="heading"></input>
+                <input placeholder="headline" type="text" id="headingField"></input>
                 
                 <img id="drag" src={drag} onMouseDown={mousedown} />
                 
@@ -66,23 +66,24 @@ function Std(){
                 <div id="body">
                 <div id="hLevel">
                 <label htmlFor="hLevel">Heading Text </label>                        
-                <select id="hLevel">
-                        <option value="1">Level 1</option>
-                        <option value="1">Level 2</option>
-                        <option value="1">Level 3</option>
-                        <option value="1">Level 4</option>
-                        <option value="1">Level 5</option>
+                <select  id="hLevelSelect">
+                        <option  value="HEADING_1">Level 1</option>
+                        <option value="HEADING_2">Level 2</option>
+                        <option value="HEADING_3">Level 3</option>
+                        <option value="HEADING_4">Level 4</option>
+                        <option value="HEADING_5">Level 5</option>
                 </select>
                 </div>
                 
                 <div id="iLevel">
                 <label htmlFor="Inked Text">Inked Text</label>                        
-                <select id="hLevel">
-                        <option value="1">Level 1</option>
-                        <option value="1">Level 2</option>
-                        <option value="1">Level 3</option>
-                        <option value="1">Level 4</option>
-                        <option value="1">Level 5</option>
+                <select id="textLevel">
+                <option  value="NORMAL_TEXT">Normal</option>
+                        <option  value="HEADING_1">Level 1</option>
+                        <option value="HEADING_2">Level 2</option>
+                        <option value="HEADING_3">Level 3</option>
+                        <option value="HEADING_4">Level 4</option>
+                        <option value="HEADING_5">Level 5</option>
                 </select>
                 </div>
                 <div id="saveRclose">
@@ -313,8 +314,11 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                 
                 let {sync}=await chrome.storage.sync.get("sync")
                 let {auth}=(sync===true)?await chrome.storage.sync.get("auth"):await chrome.storage.local.get("auth")
+                let {docs}=(sync===true)?await chrome.storage.sync.get("docs"):await chrome.storage.local.get("docs")
                 console.log(" auth user ",auth.user,auth.user==="Not signed in!")
                 if(auth.user==="Not signed in!")alert("sign into ur google account and provision a document. All this can be done in the extension popup in the browser menubar!")
+                else if(docs.documentId==="" )alert("Provision a document in popup page. copy the document ID from the url of the document or enter new new to create a document in popup page");
+                
                 else{
                 console.log(" clicked save to doc")
                 text=window.getSelection().toString();

@@ -139,15 +139,16 @@ export async function DocsPreLoader(doc:{[key:string]:string},setDoc:any,user:st
  //console.group("preloading docs")
     
     let {sync}=await chrome.storage.sync.get("sync")
-    //console.log("sync ",sync);
+    console.log("sync ",sync);
     if(sync){
-        if(user==="Not signed in!")chrome.storage.sync.set({"docs":{"title":"Not Selected","documentId":""}});
-        else{
-            let {docs}=await chrome.storage.sync.get("docs");
-    //    console.log("docs ",docs)
+        // if(user==="Not signed in!")chrome.storage.sync.set({"docs":{"title":"Not Selected","documentId":""}});
+        // else{
+
+        let {docs}=await chrome.storage.sync.get("docs");
+        console.log("docs ",docs)
         if(docs===undefined)chrome.storage.sync.set({docs});
         else setDoc(docs);
-        }
+        
     }else{
         if(user==="Not signed in!")chrome.storage.sync.set({"docs":{"title":"Not Selected","documentId":""}});
         else{

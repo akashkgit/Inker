@@ -74,11 +74,15 @@ export let checkIfInked=async(event:Event)=>{
   });
 
 }
-export async function insert(docsId:string,heading:string,level:string,startIndex:number,text:string){
+export async function insert(docsId:string,heading:string,level:string,tLevel:String,startIndex:number,text:string){
+  
+    let {sync}=await chrome.storage.sync.get("sync")
+    let {auth} =sync===true?await chrome.storage.sync.get("auth"):await chrome.storage.local.get("auth");
+    let {docs} =sync===true?await chrome.storage.sync.get("docs"):await chrome.storage.local.get("docs");
 
-    let token=await chrome.storage.sync.get("token");
-                if(token==undefined)token=await chrome.storage.local.get("token")
-                console.log("token",token)
+
+                
+                console.log("token",auth.token," heading ",heading, " content ","text, h and t level ",level,tLevel);
                 let body={
                     "requests": [
                       {
@@ -92,7 +96,7 @@ export async function insert(docsId:string,heading:string,level:string,startInde
                       {
                         "updateParagraphStyle": {
                           "paragraphStyle": {
-                            "namedStyleType": `HEADING_${level}`
+                            "namedStyleType": `${level}`
                           },
                           "fields": "namedStyleType",
                           "range": {
@@ -114,7 +118,7 @@ export async function insert(docsId:string,heading:string,level:string,startInde
                       {
                         "updateParagraphStyle": {
                           "paragraphStyle": {
-                            "namedStyleType": `NORMAL_TEXT`
+                            "namedStyleType": `${tLevel}`
                           },
                           "fields": "namedStyleType",
                           "range": {
@@ -136,13 +140,13 @@ export async function insert(docsId:string,heading:string,level:string,startInde
                         "async":true,
                         body:reqBody,
                         headers:{
-                        Authorization: "Bearer "+token.token,
+                        Authorization: "Bearer "+auth.token,
                         "Content-Type":"Application/json",
                         },
                         "contentType":"json",
                        
                     };
-                    fetch(` https://docs.googleapis.com/v1/documents/${docsId}:batchUpdate`,init).then((resp)=>console.log("success")).catch((e)=>console.log("Error ",e))
+                    fetch(`https://docs.googleapis.com/v1/documents/${docs.documentId}:batchUpdate`,init).then((resp)=>console.log("success")).catch((e)=>console.log("Error ",e))
 
 
                 

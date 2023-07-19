@@ -44,7 +44,7 @@ export function  Selection({user}:any){
                 
                 
                   });
-            })
+            },[])
             useEffect(()=>{
                 console.log(" secondary handler :changing the select value to ",doc.title)    
                 setDocOption("currentDoc");
