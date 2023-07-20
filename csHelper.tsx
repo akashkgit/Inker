@@ -19,13 +19,13 @@ export let storeSelected=async(box:HTMLDivElement[],request:any)=>{
     else idx=0;
     let bx:HTMLDivElement[]=Array.from([...box])
     bx.forEach((div:HTMLDivElement,id:number)=>{
-      div.setAttribute("id",String(idx+1)+String(id));
+      div.setAttribute("id","i"+String(idx+1)+String(id));
       div.dataset["group"]=String(idx+1);
       
   })
 
   let bxInfo=bx.map((val:HTMLDivElement,id:number)=>{
-    return {id:val.id,group:val.dataset.group}
+    return {id:val.id,group:val.dataset.group,top:val.style.top,left:val.style.left,style:val.style.borderBottomStyle,height:val.style.height,width:val.style.width,thickness:val.style.borderBottomWidth,colorPicker:val.style.borderBottomColor}
 })
 console.log(" inside cs helper 4");
 let toBeStored:any={};
@@ -60,12 +60,12 @@ chrome.storage.session.set({"store":toBeStored}).then(()=>{
    else  idx=0;
    console.log(" inside cs helper 3");
    bx.forEach((div:HTMLDivElement,id:number)=>{
-    div.setAttribute("id",String(idx+1)+String(id));
+    div.setAttribute("id","i"+String(idx+1)+String(id));
     div.dataset["group"]=String(idx+1);
     
 })
 let bxInfo=bx.map((val:HTMLDivElement,id:number)=>{
-    return {id:val.id,group:val.dataset.group}
+  return {id:val.id,group:val.dataset.group,top:val.style.top,left:val.style.left,style:val.style.borderBottomStyle,height:val.style.height,width:val.style.width,thickness:val.style.borderBottomWidth,colorPicker:val.style.borderBottomColor}
 })
 console.log(" inside cs helper 4");
 let toBeStored:any={};

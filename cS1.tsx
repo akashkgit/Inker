@@ -204,6 +204,46 @@ pdiv.style.position = "fixed";
 
 
 console.log("loaded cs");
+
+async function preInk(){
+
+        chrome.storage.sync.get("sync").then(async ({sync})=>{
+                                
+                                let{store,controls}=sync===true?await   chrome.storage.sync.get(["store","controls"]):await chrome.storage.local.get(["store","controls"]);
+                                if(store[window.location.href]){
+                                    
+                                    
+                                   let page:any=store[window.location.href];
+                                    let end=page["idx"];
+                                    for(let id=0;id<=end;id++){
+                                        console.log("ID ",id,page[id],store,window.location.href);
+                                        if(page[id]===undefined)continue;
+                                        page[id].forEach((val:any,id:any)=>{
+                                                  console.log(" appending child ",val)
+                                                        let div=document.createElement("div");
+                                                        div.setAttribute("id",val.id)
+                                                        div.dataset["group"]=val.group
+                                                        div.style.position="absolute"
+                                                        div.style.top=val.top
+                                                        div.style.left=val.left
+                                                        div.style.borderBottomWidth=val.thickness;
+                                                        div.style.borderBottomColor=val.colorPicker;
+                                                        div.style.borderBottomStyle=val.style;
+                                                        div.style.zIndex="100";
+                                                        div.style.width=val.width;
+                                                        div.style.height=val.height;
+                                                        document.body.appendChild(div);
+
+                                        })
+                                    }
+                                }
+                                
+
+
+        })
+
+}
+preInk();
 document.addEventListener("click", async (ev) => {
         //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
 

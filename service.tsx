@@ -17,7 +17,7 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
             "keepInks":false,
         }
          
-       chrome.storage.sync.set({"controls":payLoad,"sync":true,"store":{}});
+       chrome.storage.sync.set({"controls":payLoad,"sync":true,"store":{},auth:{"user":"Not signed in!","selectOption":"currentUser"}});
     }
     
      
