@@ -30,6 +30,10 @@
     left:40%;
     
 } 
+.flex2{
+    display:flex;
+    gap:1rem;
+}
 
 
 

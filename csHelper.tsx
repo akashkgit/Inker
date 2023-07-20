@@ -1,12 +1,58 @@
 
 export let storeSelected=async(box:HTMLDivElement[],request:any)=>{
-   console.log(" inside cs helper ");
+  
+  let {sync}=await chrome.storage.sync.get("sync"); 
+  let {controls}=sync==true?await chrome.storage.sync.get("controls"):await chrome.storage.local.get("controls");
+  let keepInk=controls.keepInks;
+  console.log("@@ storing selected ",sync,keepInk,controls)
+
+  if(keepInk==false){
+    console.log("goes unstored and lost between page reload");
+    
+    chrome.storage.session.get("store").then(({store})=>{
+    console.log("got store object from session")
+    let pagePresent=false;
+    let pageUrl=request.ev.pageUrl;
+    let idx:number;
+    if(store===undefined)store={};
+    if(store[pageUrl])   {pagePresent=true; idx=store[pageUrl].idx;}
+    else idx=0;
+    let bx:HTMLDivElement[]=Array.from([...box])
+    bx.forEach((div:HTMLDivElement,id:number)=>{
+      div.setAttribute("id",String(idx+1)+String(id));
+      div.dataset["group"]=String(idx+1);
+      
+  })
+
+  let bxInfo=bx.map((val:HTMLDivElement,id:number)=>{
+    return {id:val.id,group:val.dataset.group}
+})
+console.log(" inside cs helper 4");
+let toBeStored:any={};
+if(pagePresent){
+    
+    toBeStored[pageUrl]={...store[pageUrl],[idx+1]:bxInfo,"idx":idx+1}
+    console.log("storing boxes in the store ",toBeStored);
+}
+else{
+    toBeStored[pageUrl]={"idx":idx+1,[idx+1]:bxInfo}
+    console.log("storing boxes in the store for the first time  ",toBeStored);
+}
+
+chrome.storage.session.set({"store":toBeStored}).then(()=>{
+        chrome.storage.session.get("store").then((val:any)=>console.log("Stored sync obj",val.store,val.store[pageUrl][idx+1][0].id))
+
+})
+})
+
+  }
+  else{
+    console.log(" inside cs helper ");
    let bx:HTMLDivElement[]=Array.from([...box])
-    let sync=true;
-    let res =await chrome.storage.sync.get("store")      
-   if(!res|| !res.store)
-   {res=await chrome.storage.local.get("store");sync=false;}
+   let res=sync==true?await chrome.storage.sync.get("store"):await chrome.storage.local.get("store");
    console.log(" inside cs helper 2",res);
+
+
    let pagePresent=false;
    let pageUrl=request.ev.pageUrl;
    let idx:number;
@@ -41,7 +87,7 @@ else await chrome.storage.local.set({"store":toBeStored}).then(()=>{
     chrome.storage.local.get("store").then((val:any)=>console.log(" stored  local obj ",val.store,val.store[pageUrl][idx+1][0].id))
 
 })
-
+  }
 
 
 
@@ -50,11 +96,12 @@ else await chrome.storage.local.set({"store":toBeStored}).then(()=>{
 
 
 export let checkIfInked=async(event:Event)=>{
-    return chrome.storage.sync.get("store").then(async (res)=>{
+    return chrome.storage.sync.get("sync").then(async ({sync})=>{
+    let {store,controls}=sync==true?await chrome.storage.sync.get(["store","controls"]):await chrome.storage.local.get(["store","controls"])
+    let Store=(controls.keepInks==false)?await chrome.storage.session.get("store"):store
+    let res={"store":Store}
     console.log("res ",res)
-    if(!res || !res.store){
-        res=await chrome.storage.local.get("store");
-    }
+   
     let el=(event.target as HTMLDivElement);
     console.log("target element ",el.dataset.group,el.id)
     console.log("stored object ",res.store)

@@ -5,7 +5,7 @@ import { uControlsHandler } from "./helper1";
 export function Controls(){
 
     
-    const [controls, setControls] = useState({"lineStyle": "dotted", "colorPicker": "black","sync":true,"thickness":1 })
+    const [controls, setControls] = useState({"lineStyle": "dotted", "colorPicker": "black","sync":true,"thickness":1,"keepInks":false})
 
     initSync(controls,setControls);
     console.log(" re Rendered values ",controls)
@@ -29,10 +29,6 @@ export function Controls(){
     
     
 </div>
-<div className='flex2i' >
-    <input type="checkbox" checked={controls.sync} id="sync"  onChange={uControlsBasicHandler}/><span>&nbsp;</span><label htmlFor="sync">Sync</label>
-</div>
-
 <div>
     <label htmlFor='thickness'>Weight</label> <br />
     <select value={controls.thickness} onChange={uControlsBasicHandler} id="thickness" >
@@ -44,5 +40,15 @@ export function Controls(){
 
     </select>
     </div>
+<div className='flex2' >
+    <div><input type="checkbox" checked={controls.sync} id="sync"  onChange={uControlsBasicHandler}/><span>&nbsp;</span><label htmlFor="sync">Sync</label></div>
+    <div >
+    <input type="checkbox" checked={controls.keepInks} id="keepInks"  onChange={uControlsBasicHandler}/><span>&nbsp;</span><label htmlFor="keepInks">keepInks</label>
+</div>
+</div>
+
+
+
+
     </>
 }

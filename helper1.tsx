@@ -87,7 +87,7 @@ export let syncHandler = (val: ChangeEvent<HTMLInputElement>, sync: boolean, set
 export let uControlsHandler = async (val: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>, setControls: (val: {}) => void,controls:any,typedec:any) => {
     console.log(" controls before changing ",controls)
     let cachedId=val.target.id;
-    let cachedVal=val.target.id=="sync"?(val.target as HTMLInputElement).checked:val.target.value;
+    let cachedVal=val.target.id=="sync" || val.target.id=="keepInks"?(val.target as HTMLInputElement).checked:val.target.value;
 
         
     console.log(" checking 2",val.target.id,val.target.value)

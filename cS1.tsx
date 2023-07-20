@@ -206,14 +206,27 @@ pdiv.style.position = "fixed";
 console.log("loaded cs");
 document.addEventListener("click", async (ev) => {
         //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
+
+        chrome.storage.sync.get("sync").then(async ({sync})=>{
+                console.log(" element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
+                let {controls}=sync==true?await chrome.storage.sync.get("controls"):await chrome.storage.local.get("controls");
+               if(controls.keepInks===true){
         checkIfInked(ev).then((found)=>{
-        console.log("element found: ", found);
+        console.log("element found: ", found," element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
         if (found) {
                 pdiv.style.display = "block";
                 unlinkSingle.dataset["remove"] = (ev.target as HTMLDivElement).id;
                 unlinkFull.dataset["remove"] = (ev.target as HTMLDivElement).dataset.group;
         }
 });
+               }
+               else{
+                unlinkSingle.dataset["remove"] = (ev.target as HTMLDivElement).id;
+                unlinkFull.dataset["remove"] = (ev.target as HTMLDivElement).dataset.group;
+
+               }
+
+})
 
 
 })
@@ -300,15 +313,34 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
 
 
                 })
-
-                let store = await chrome.storage.sync.get("store");
-                let sync = true;
-                if (!store || !store.store) { store = await chrome.storage.local.get("store"); sync = false; }
-                console.log(" deleting ", elToBeRemoved, " from storage sync? ", sync, window.location.href, " is the key ")
-                delete store.store[window.location.href][elToBeRemoved];
-
-                if (sync) await chrome.storage.sync.set(store).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
-                else await chrome.storage.local.set(store).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
+   
+               chrome.storage.sync.get("sync").then(({sync})=>sync)
+                .then(async (sync)=>{
+                        if(sync){
+                                let res=await chrome.storage.sync.get(["store","controls"])
+                                return {sync:sync,...res};
+                        }
+                        else 
+                        {
+                                let res=await chrome.storage.local.get(["store","controls"])
+                                return {sync:sync,...res};
+                        }
+                })
+                .then((obj:any)=>{
+                        console.log("alertttt 330@cs1",obj);
+                        let controls=obj.controls
+                        let sync=obj.sync;
+                        let store=obj.store
+                        
+                console.log(" deleting ", elToBeRemoved, " from storage sync? ", sync, window.location.href, " is the key ",store[window.location.href][elToBeRemoved])
+                delete store[window.location.href][elToBeRemoved];
+                if (controls.keepInks==false)chrome.storage.session.set(store).then(() => chrome.storage.session.get("store").then((val) => console.log(" after deletion ", val)));
+                else if (sync) chrome.storage.sync.set(store).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
+                else  chrome.storage.local.set(store).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
+                        
+               })
+        
+       
         }
         else if(req.ev.menuItemId === "saveToDoc"){
                 

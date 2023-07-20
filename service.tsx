@@ -1,4 +1,5 @@
 chrome.runtime.onInstalled.addListener(async (ev)=>{
+    chrome.storage.session.setAccessLevel({accessLevel:"TRUSTED_AND_UNTRUSTED_CONTEXTS"})
     let sync=await chrome.storage.sync.get("sync");
     if(sync.sync===true){
         
@@ -12,7 +13,8 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
             "lineStyle":"dotted",
             "colorPicker":"black",
             "thickness":1,
-            "sync":true
+            "sync":true,
+            "keepInks":false,
         }
          
        chrome.storage.sync.set({"controls":payLoad,"sync":true,"store":{}});
