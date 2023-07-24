@@ -34,9 +34,9 @@
 }
 #drag{
     align-self: center;
-    height:50%;
+    
     cursor:pointer;
-    width:10%;
+    
 }
 #heading input[type=text]:active,#heading input[type=text]:focus{
    
@@ -112,7 +112,7 @@ input,select{
         
         width:20vw;
         box-shadow: 0px 0px 5px 2px rgba(149, 124, 113, 0.84);
-        padding:0.1%;
+        padding:0%;
         
     
         font-family: "Gill Sans", sans-serif;
@@ -121,10 +121,10 @@ input,select{
     }
      
     #heading{
-        background-color:  rgb(202, 197, 187);
+        background-color: rgb(229, 224, 213);
         padding-left:4%;
         display: flex;
-        
+        gap:1rem;
         padding-right:4%;
         padding-top:2%;
         box-sizing: border-box;
@@ -133,9 +133,9 @@ input,select{
     }
     #drag{
         align-self: center;
-        height:50%;
+        
         cursor:pointer;
-        width:10%;
+        
     }
     #heading input[type=text]:active,#heading input[type=text]:focus{
        
@@ -179,15 +179,16 @@ input,select{
     input,select{
       
         font-weight: 1em;
-         background-color: rgba(229, 224, 213, 0.833);
+         background-color: rgba(229, 224, 213, 0);
         border: 0px solid rgba(202, 197, 187, 0.285);
       
       }
       .std button{
-        font-weight: 1em;
+        font-weight: normal;
         background-color: rgba(224, 215, 196, 0.88);
        border: 0px solid rgba(202, 197, 187, 0.285);
        margin-left:1%;
+       border-radius: 0.5rem;
       }
       option{
         background-color: rgba(8, 8, 8, 0.451);
@@ -230,8 +231,8 @@ input,select{
     }
     #drag{
         align-self: center;
-        height:50%;
-        width:10%;
+        
+        
     }
     #heading input[type=text]:active,#heading input[type=text]:focus{
        

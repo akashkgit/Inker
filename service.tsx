@@ -7,6 +7,10 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
     else if(sync.sync===false){
 
     } 
+    // the above two cases means that the data is already in the storage. So, these if elses are only for popup display purpose
+    // so if data is already there, it wil be loaded when popup is popened to show to the user
+    // if the datais not there...just we are insert default value into storage so that  we can handle cases if user does not open the opopup
+    /// but for the above two cases even  if the user  does not open the popup, the data is alredy there in the storage
    else {
         console.log(" loading data for first time ",sync.sync,sync);
         let payLoad={

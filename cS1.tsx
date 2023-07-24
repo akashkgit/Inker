@@ -54,12 +54,12 @@ function Std(){
         
         <div  className="std"     id="stdDiv">
         
-                <div id="heading">
-                
-                
-                <input placeholder="headline" type="text" id="headingField"></input>
+                <div id="heading" onClick={(ev)=>console.log(ev.target)}>
                 
                 <img id="drag" src={drag} onMouseDown={mousedown} />
+                <input placeholder="Headline" type="text" id="headingField"></input>
+                
+                
                 
                 
                 </div>
@@ -285,6 +285,16 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
         const req = request;
         console.log(req);
         console.log(req.ev.menuItemId === "unInk")
+        if(req.ev.data ==="signedOut"){
+                let stdDiv=document.querySelector("#stdDiv") as HTMLDivElement;
+                stdDiv.style.display="none";
+                alert(" signin to continue saving to the doc");
+        }
+        else if(req.ev.data ==="docsRemoved"){
+                let stdDiv=document.querySelector("#stdDiv") as HTMLDivElement;
+                stdDiv.style.display="none";
+                alert(" Docs deprovisioned! Kindly provision a doc in the popup page");
+        }
         if (req.ev.menuItemId === "inkIt") {
 
                 console.log(" fetching UI controls data form chrome storage")
@@ -371,12 +381,14 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                         let controls=obj.controls
                         let sync=obj.sync;
                         let store=obj.store
+                        console.log("store which has to be deleted item ",store)
                         
                 console.log(" deleting ", elToBeRemoved, " from storage sync? ", sync, window.location.href, " is the key ",store[window.location.href][elToBeRemoved])
                 delete store[window.location.href][elToBeRemoved];
-                if (controls.keepInks==false)chrome.storage.session.set(store).then(() => chrome.storage.session.get("store").then((val) => console.log(" after deletion ", val)));
-                else if (sync) chrome.storage.sync.set(store).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
-                else  chrome.storage.local.set(store).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
+                console.log(" deleted store ",store)
+                if (controls.keepInks==false)chrome.storage.session.set({"store":store}).then(() => chrome.storage.session.get("store").then((val) => console.log(" after deletion ", val)));
+                else if (sync) chrome.storage.sync.set({"store":store}).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
+                else  chrome.storage.local.set({"store":store}).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
                         
                })
         

@@ -1,3 +1,5 @@
+import { speak2CS } from "./speak";
+
 export async function auth(signedUser: {[key:string]:string}, setSignedUser:any, event?: any) {
     //console.log(" called the auther ");
     if(event && event.target)console.log("select value",event.target.value)
@@ -12,6 +14,7 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
          //   console.log(" resetting signed user to not signed in ");
             //setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
             chrome.storage.sync.get("sync").then((val)=>{
+                speak2CS("signedOut")
                 if(val.sync) chrome.storage.sync.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":""},"docs":{"title":"Not Selected","documentId":""}})
                 else chrome.storage.local.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":""},"docs":{"title":"Not Selected","documentId":""}})
              //   setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
