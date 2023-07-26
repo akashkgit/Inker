@@ -349,10 +349,21 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                                 div.style.borderBottomColor = Controls.colorPicker
                                 div.style.borderBottomStyle = Controls.lineStyle as string;
                                 div.addEventListener("mouseover",(ev)=>{
-                                        div.style.boxShadow=`0px 0px 5px 2px ${Controls.colorPicker}`;
+                                        let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
+                                        lst.forEach((val:HTMLDivElement,id)=>{
+
+                                                val.style.boxShadow=`0px 5px 5px -5px ${Controls.colorPicker}`;
+                                        })
+
+                                        
                                 })
                                 div.addEventListener("mouseout",(ev)=>{
-                                        div.style.boxShadow="0px 0px 0px 0px rgba(175, 21, 21, 0.84)";
+                                        let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
+                                        lst.forEach((val:HTMLDivElement,id)=>{
+
+                                                val.style.boxShadow="0px 0px 0px 0px rgba(175, 21, 21, 0.84)";
+                                        })
+                                       
                                 })
                                 console.log("bototmborder  ", div.style.borderBottom)
                         }
