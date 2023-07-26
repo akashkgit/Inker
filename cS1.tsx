@@ -86,6 +86,14 @@ function Std(){
                         <option value="HEADING_5">Level 5</option>
                 </select>
                 </div>
+                <div id="iLevel">
+                <label htmlFor="urlSelector">Include Url ?</label>                        
+                <select id="urlSelector">
+                
+                        <option  value="yes">Yes</option>
+                        <option value="no">No</option>
+                </select>
+                </div>
                 <div id="saveRclose">
                 <button id="saveToDoc" onClick={postData}>Save</button>
                 <button id="close" onClick={()=>document.getElementById("stdDiv").style.display="none"}> X </button>
@@ -244,16 +252,22 @@ async function preInk(){
 
 }
 preInk();
-document.addEventListener("click", async (ev) => {
+document.addEventListener("mouseover", async (ev) => {
         //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
-
+         
         chrome.storage.sync.get("sync").then(async ({sync})=>{
                 console.log(" element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
                 let {controls}=sync==true?await chrome.storage.sync.get("controls"):await chrome.storage.local.get("controls");
                if(controls.keepInks===true){
         checkIfInked(ev).then((found)=>{
+
         console.log("element found: ", found," element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
         if (found) {
+               // let els=document.querySelectorAll(`div[data-group=${(ev.target as HTMLDivElement).dataset.group}`)
+                // els.forEach((box:HTMLDivElement,id)=>{
+                //                 box.style.boxShadow=
+                // })
+                
                 pdiv.style.display = "block";
                 unlinkSingle.dataset["remove"] = (ev.target as HTMLDivElement).id;
                 unlinkFull.dataset["remove"] = (ev.target as HTMLDivElement).dataset.group;
@@ -334,6 +348,12 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                                 div.style.borderBottomWidth = (Number(Controls.thickness) * 1) + "px";
                                 div.style.borderBottomColor = Controls.colorPicker
                                 div.style.borderBottomStyle = Controls.lineStyle as string;
+                                div.addEventListener("mouseover",(ev)=>{
+                                        div.style.boxShadow=`0px 0px 5px 2px ${Controls.colorPicker}`;
+                                })
+                                div.addEventListener("mouseout",(ev)=>{
+                                        div.style.boxShadow="0px 0px 0px 0px rgba(175, 21, 21, 0.84)";
+                                })
                                 console.log("bototmborder  ", div.style.borderBottom)
                         }
 
