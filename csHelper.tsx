@@ -197,8 +197,8 @@ export async function insert(docsId: string, heading: string, level: string, tLe
       "fields": "namedStyleType",
       "range": {
         "segmentId": "",
-        "startIndex": startIndex+heading.length + window.location.href.length+3,
-        "endIndex": startIndex+heading.length + window.location.href.length + text.length+3
+        "startIndex": startIndex+heading.length +(urlSelector.value === "yes"?window.location.href.length+1:0) +2,
+        "endIndex": startIndex+heading.length +(urlSelector.value === "yes"?window.location.href.length+1:0)+ text.length+2
       }
     }
   }
@@ -212,7 +212,7 @@ export async function insert(docsId: string, heading: string, level: string, tLe
   if (urlSelector.value === "yes") {
     body["requests"].push(pageUrl[0]); body["requests"].push(pageUrl[1]);
   }
-  body["requests"].push(content[0]); body["requests"].push(content[1]);
+  if(text!==""){body["requests"].push(content[0]); body["requests"].push(content[1]);}
 
 
   console.log("selected string ", text);
