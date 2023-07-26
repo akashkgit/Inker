@@ -241,6 +241,54 @@ async function preInk(){
                                                         div.style.width=val.width;
                                                         div.style.height=val.height;
                                                         document.body.appendChild(div);
+                                                        let blinkerOn,blinkerOff:any
+                                                        div.addEventListener("mouseover",(ev)=>{
+                                                                console.group("mouseEvent")
+                                                                console.log("moveover");
+                                                              //  alert(" creating interval events ");
+                                                               blinkerOff= setInterval(()=>{
+                                                                let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
+                                                                console.log("Off",Date());
+                                                                lst.forEach((val:HTMLDivElement,id)=>{
+                                                                        
+                                                                       val.style.borderBottom="";
+                                                                       
+                                                                      
+                                                                })
+                                                                setTimeout(() => {
+                                                                        console.log(" off ");
+                                                                        lst.forEach((d:HTMLDivElement,id)=>{
+                                                                        
+                                                                      //d.style.display="block"
+                                                                               d.style.borderBottomWidth = val.thickness;
+                                                              d.style.borderBottomColor = val.colorPicker
+                                                               d.style.borderBottomStyle = val.style ;
+                                                             
+                                                             
+                                                       }) 
+                                                                }, 250);
+                                                        },500)
+                                                        // blinkerOn=setInterval(()=>{
+                                                        //         console.log(" on ",Date())
+                                                        //         let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
+                                                        //        blinkerOn= lst.forEach((val:HTMLDivElement,id)=>{
+                        
+                                                        //                 val.style.borderBottomWidth = (Number(Controls.thickness) * 1) + "px";
+                                                        //                 val.style.borderBottomColor = Controls.colorPicker
+                                                        //                 val.style.borderBottomStyle = Controls.lineStyle as string;
+                                                                      
+                                                        //         })
+                                                        // },3000)
+                                                                
+                                                        })
+                                                        div.addEventListener("mouseout",(ev)=>{
+                                                              
+                                                               // alert(" clearing "+blinkerOff+" "+blinkerOn)
+                                                                clearInterval(blinkerOff)
+                                                              
+                                                                console.log(" cl---- eared ")
+                                                               
+                                                        })
 
                                         })
                                     }
@@ -390,11 +438,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                                         
                                 })
                                 div.addEventListener("mouseout",(ev)=>{
-                                        let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
-                                        lst.forEach((val:HTMLDivElement,id)=>{
-
-                                                val.style.boxShadow="0px 0px 0px 0px rgba(175, 21, 21, 0.84)";
-                                        })
+                                      
                                        // alert(" clearing "+blinkerOff+" "+blinkerOn)
                                         clearInterval(blinkerOff)
                                       
