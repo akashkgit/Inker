@@ -343,18 +343,50 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                         div.style.zIndex = "100";
                         //--- customizing the inked portion -----
                         console.log("controls ", Controls, Controls.style === "underline", Controls.style === "box")
+                        let blinkerOn:any,blinkerOff:any
                         if (true) {
                                 console.log(" underlining ", Controls.lineStyle as string)
                                 div.style.borderBottomWidth = (Number(Controls.thickness) * 1) + "px";
                                 div.style.borderBottomColor = Controls.colorPicker
                                 div.style.borderBottomStyle = Controls.lineStyle as string;
+                                
                                 div.addEventListener("mouseover",(ev)=>{
+                                        console.group("mouseEvent")
+                                        console.log("moveover");
+                                      //  alert(" creating interval events ");
+                                       blinkerOff= setInterval(()=>{
                                         let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
+                                        console.log("Off",Date());
                                         lst.forEach((val:HTMLDivElement,id)=>{
-
-                                                val.style.boxShadow=`0px 5px 5px -5px ${Controls.colorPicker}`;
+                                                
+                                               val.style.borderBottom="";
+                                               
+                                              
                                         })
+                                        setTimeout(() => {
+                                                console.log(" off ");
+                                                lst.forEach((val:HTMLDivElement,id)=>{
+                                                
+                                              
+                                                        val.style.borderBottomWidth = (Number(Controls.thickness) * 1) + "px";
+                                       val.style.borderBottomColor = Controls.colorPicker
+                                       val.style.borderBottomStyle = Controls.lineStyle as string;
+                                     
+                                     
+                               }) 
+                                        }, 250);
+                                },500)
+                                // blinkerOn=setInterval(()=>{
+                                //         console.log(" on ",Date())
+                                //         let lst=document.querySelectorAll(`div[data-group="${div.dataset.group}"]`)
+                                //        blinkerOn= lst.forEach((val:HTMLDivElement,id)=>{
 
+                                //                 val.style.borderBottomWidth = (Number(Controls.thickness) * 1) + "px";
+                                //                 val.style.borderBottomColor = Controls.colorPicker
+                                //                 val.style.borderBottomStyle = Controls.lineStyle as string;
+                                              
+                                //         })
+                                // },3000)
                                         
                                 })
                                 div.addEventListener("mouseout",(ev)=>{
@@ -363,6 +395,10 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
 
                                                 val.style.boxShadow="0px 0px 0px 0px rgba(175, 21, 21, 0.84)";
                                         })
+                                       // alert(" clearing "+blinkerOff+" "+blinkerOn)
+                                        clearInterval(blinkerOff)
+                                      
+                                        console.log(" cl---- eared ")
                                        
                                 })
                                 console.log("bototmborder  ", div.style.borderBottom)
