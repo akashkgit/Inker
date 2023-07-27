@@ -352,6 +352,13 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                 stdDiv.style.display="none";
                 alert(" signin to continue saving to the doc");
         }
+        else if (req.ev.data==="scroll2View"){
+                let id=req.ev.payload[0];
+                let divs=document.querySelectorAll(`div[data-group="${id}"]`)
+                divs[0].scrollIntoView({behavior:"smooth",block:"center",inline:"center"});
+
+
+        }
         else if(req.ev.data ==="docsRemoved"){
                 let stdDiv=document.querySelector("#stdDiv") as HTMLDivElement;
                 stdDiv.style.display="none";
@@ -458,7 +465,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
 
                 });
                 console.log(" b4 storing bx array ", bx)
-                await storeSelected(bx, request)
+                await storeSelected(bx, request,sel.toString())
                 console.log(bx);
 
         }
@@ -478,13 +485,15 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                chrome.storage.sync.get("sync").then(({sync})=>sync)
                 .then(async (sync)=>{
                         if(sync){
-                                let res=await chrome.storage.sync.get(["store","controls"])
-                                return {sync:sync,...res};
+                                let res=await chrome.storage.sync.get(["store","controls","xtraStore"])
+                                if(res.controls.keepInks===false)return {sync:sync,...res,"keepInks":false};
+                                return {sync:sync,...res,"keepInks":true};
                         }
                         else 
                         {
-                                let res=await chrome.storage.local.get(["store","controls"])
-                                return {sync:sync,...res};
+                                let res=await chrome.storage.local.get(["store","controls","xtraStore"])
+                                if(res.controls.keepInks===false)return {sync:sync,...res,"keepInks":false};
+                                return {sync:sync,...res,"keepInks":true};
                         }
                 })
                 .then((obj:any)=>{
@@ -492,15 +501,29 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                         let controls=obj.controls
                         let sync=obj.sync;
                         let store=obj.store
+                        let xStore=obj.xtraStore
+                        let keepInks=obj.keepInks;
                         console.log("store which has to be deleted item ",store)
-                        
+                if(keepInks==false){
+                        chrome.storage.session.get(["store","xtraStore"]).then(({store,xtraStore})=>{
+
+                                console.log(" UNINKING SESSION ",elToBeRemoved,window.location.href)
+                                delete store[window.location.href][elToBeRemoved]
+                                delete xtraStore[window.location.href][elToBeRemoved]
+                                console.log(" UNKING SESSIOn : DELETED FROM STORE AND XSTORE and re qwritten data")
+                                chrome.storage.session.set({"store":store}).then(() => chrome.storage.session.get("store").then((val) => console.log(" after deletion ", val)));
+                        })
+                }
+
+                else{
                 console.log(" deleting ", elToBeRemoved, " from storage sync? ", sync, window.location.href, " is the key ",store[window.location.href][elToBeRemoved])
                 delete store[window.location.href][elToBeRemoved];
+                delete xStore[window.location.href][elToBeRemoved]
                 console.log(" deleted store ",store)
-                if (controls.keepInks==false)chrome.storage.session.set({"store":store}).then(() => chrome.storage.session.get("store").then((val) => console.log(" after deletion ", val)));
-                else if (sync) chrome.storage.sync.set({"store":store}).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
-                else  chrome.storage.local.set({"store":store}).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
-                        
+                
+                if (sync) chrome.storage.sync.set({"store":store,"xtraStore":xStore}).then(() => chrome.storage.sync.get("store").then((val) => console.log(" after deletion ", val)));
+                else  chrome.storage.local.set({"store":store,"xtraStore":xStore}).then(() => chrome.storage.local.get("store").then((val) => console.log(" after deletion ", val)));
+                }     
                })
         
        

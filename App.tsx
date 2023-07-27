@@ -5,6 +5,7 @@ import { initSync, syncHandler, uControlsHandler } from "./helper1";
 import { Docs } from './Docs';
 import { Selection } from './Selection';
 import { Controls } from './controls';
+import { Inks } from './Inks';
 
 
 export function App() {
@@ -17,6 +18,7 @@ export function App() {
             <Controls />
         </div>
         <Docs />
+        <Inks />
     </div>
 
 }
