@@ -20,6 +20,7 @@ export function Controls(){
         <option value="dotted"  >Dotted....</option>
         <option value="dashed" >Dashed _ _ _</option> 
         <option value="double" >Double</option>
+        <option value="solid" >Solid</option>
     </select>
 </div>
 

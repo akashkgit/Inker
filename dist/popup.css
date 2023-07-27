@@ -35,8 +35,6 @@
     gap:1rem;
 }
 
-
-
 .grid1{
     display:flex;
     flex-direction: column;
@@ -44,23 +42,17 @@
     padding-left:7%;
     padding-top:7%;
     gap:5%;
-    position:relative;
-    
-    
-    
+    position:relative; 
 }
 .grid2{
     display:flex;
-    flex-direction: column;
-    
+    flex-direction: column;   
 }
 .grid1  select:not(#thickness){
     width:80%;
-    
 }
 #thickness{
     width:60%;
-    
 }
 /*!*****************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./selection.css ***!
@@ -84,15 +76,51 @@
     flex-direction: column;
     gap:9%;
     background-color: rgba(202, 197, 187, 0.433);
+    
     padding:4%;
 }
 
 /*!************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./inks.css ***!
   \************************************************************/
-#inks{
-    overflow: scroll;
+
+.master{
+    overflow: hidden;
+    background-color: rgba(202, 197, 187, 0.433);
+    padding-top:2%;
 }
+.card_container{
+    
+    
+    flex-direction:column;
+    align-content:center;
+    margin-top: 1%;
+    padding-bottom:12%;
+    flex-wrap: wrap;
+    justify-content: space-evenly;  
+    height: 100%;
+    
+    
+    box-sizing: border-box;
+}
+.overflow{
+    overflow-y: scroll;
+    height:100%;
+    margin-top:2%;
+}
+
+.list{
+    background-color: rgba(202, 197, 187, 0.433);
+    margin-top:5%;
+    margin-bottom:5%;
+    padding:3%;
+    margin-right:5%;
+    position:relative;
+    /* box-shadow: 5px 0px 1px 1px rgba(149, 137, 113, 0.84); */
+
+    
+}
+
 /*!*****************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js!./popup.css (3) ***!
   \*****************************************************************/

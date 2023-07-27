@@ -47,11 +47,17 @@ export function Inks(){
     },[])
     
     return <>
-    <ul id="inks">
+    
+    <div className="master">
+    <div id="inks" className="card_container">
+    <label htmlFor="inks" className="fixed">Inks</label>
+    <div className="overflow">
       {
       getJSX(xStore)
     }
-    </ul>
+    </div>
+    </div>
+    </div>
     </>
 
 }
@@ -66,7 +72,7 @@ function getJSX(xStore:any){
 
        return Object.keys(xStore).map((keys)=>{
             console.log(`<li id=${keys}>${xStore[keys]}</li>`)
-          return <li key={keys} onClick={viewMe} id={keys}>{xStore[keys].slice(0,20)+"..."}</li>
+          return <div key={keys} onClick={viewMe} className="list" id={keys}>{xStore[keys].slice(0,Math.min(80,xStore[keys].length))+"..."}</div>
         })
       }
       else {console.log("<><center><h2>No Inks!</h2> </center></>");return <><center><h2>No Inks!</h2> </center></>}
