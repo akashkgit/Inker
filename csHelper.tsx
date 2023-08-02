@@ -25,7 +25,8 @@ export let storeSelected = async (box: HTMLDivElement[], request: any,text:strin
 
       })
       console.log(" %% storing selected in xtraStore in session")
-     let xStore=await  chrome.storage.session.get("xtraStore")
+     let xStore=(await  chrome.storage.session.get("xtraStore")).xtraStore
+     if(xStore==undefined)xStore={}
   
       let bxInfo = bx.map((val: HTMLDivElement, id: number) => {
         return { id: val.id, group: val.dataset.group, top: val.style.top, left: val.style.left, style: val.style.borderBottomStyle, height: val.style.height, width: val.style.width, thickness: val.style.borderBottomWidth, colorPicker: val.style.borderBottomColor }
@@ -35,12 +36,14 @@ export let storeSelected = async (box: HTMLDivElement[], request: any,text:strin
       if (pagePresent) {
 
         toBeStored[pageUrl] = { ...store[pageUrl], [idx + 1]: bxInfo, "idx": idx + 1 }
+        console.log("page prsent in session ",pageUrl,xStore,xStore[pageUrl])
         xStore[pageUrl][String(idx+1)]=text;
        
         console.log("storing boxes in the store ", toBeStored);
       }
       else {
         toBeStored[pageUrl] = { "idx": idx + 1, [idx + 1]: bxInfo }
+        console.log(" sotring in session for the first time ",xStore,xStore!==undefined?xStore[pageUrl]:"undefined xStore")
         xStore[pageUrl]={ "idx": idx + 1, [idx + 1]: text}
         console.log("storing boxes in the store for the first time  ", toBeStored);
       }

@@ -110,12 +110,19 @@ export let uControlsHandler = async (val: ChangeEvent<HTMLInputElement> | Change
             
         }
         else{
-            chrome.storage.local.get(null,(params)=>{
-                let toBeStored={"controls":{...params.controls,"sync":true},"auth":params.auth,"docs":params.docs,"sync":true};
+            let sType=window.prompt("By default, inker follows soft sync. Type hard sync otherwise","soft")
+            if(sType==="hard"){
+                
+                chrome.storage.local.get(null,async (params)=>{
+                    let {store}=await chrome.storage.sync.get("store");
+
+                    let toBeStored={"controls":{...params.controls,"sync":true},"auth":params.auth,"docs":params.docs,"sync":true,"store":params.store};
+                    
                 chrome.storage.sync.set(toBeStored).then(()=>{
                     chrome.storage.local.set({"sync":true,controls:{},auth:{},docs:{}});
                 })
         })
+    }
 
         }
 

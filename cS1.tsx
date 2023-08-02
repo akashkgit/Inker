@@ -8,7 +8,7 @@ const drag=require("./drag.png");
 //------- unling pallete -------------
 
 //-------- save to doc palette ---------
-
+chrome.storage.session.set({store:{},xtraStore:{}}).then(()=>console.log("reset store and xstore "))
 async function postData(event:any){
         let level=document.getElementById("hLevel")
         let heading=document.getElementById("heading")
@@ -214,7 +214,7 @@ pdiv.style.position = "fixed";
 console.log("loaded cs");
 
 async function preInk(){
-
+        
         chrome.storage.sync.get("sync").then(async ({sync})=>{
                                 
                                 let{store,controls}=sync===true?await   chrome.storage.sync.get(["store","controls"]):await chrome.storage.local.get(["store","controls"]);
@@ -511,7 +511,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
                                 delete store[window.location.href][elToBeRemoved]
                                 delete xtraStore[window.location.href][elToBeRemoved]
                                 console.log(" UNKING SESSIOn : DELETED FROM STORE AND XSTORE and re qwritten data")
-                                chrome.storage.session.set({"store":store}).then(() => chrome.storage.session.get("store").then((val) => console.log(" after deletion ", val)));
+                                chrome.storage.session.set({"store":store,"xtraStore":xtraStore}).then(() => chrome.storage.session.get(["store","xtraStore"]).then(({store,xtraStore}) => console.log(" after deletion ", store,xtraStore)));
                         })
                 }
 

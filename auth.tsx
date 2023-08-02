@@ -15,8 +15,8 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
             //setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
             chrome.storage.sync.get("sync").then((val)=>{
                 speak2CS("signedOut")
-                if(val.sync) chrome.storage.sync.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":""},"docs":{"title":"Not Selected","documentId":""}})
-                else chrome.storage.local.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":""},"docs":{"title":"Not Selected","documentId":""}})
+                if(val.sync) chrome.storage.sync.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":"","prompt":"signedOut"},"docs":{"title":"Not Selected","documentId":""}})
+                else chrome.storage.local.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":"","prompt":"signedOut"},"docs":{"title":"Not Selected","documentId":""}})
              //   setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
                })
         }
@@ -24,17 +24,68 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
   //  console.log("problem 2",(event!==undefined &&  val==="signIn"))
     if(event!==undefined && (val==="signIn"))interactive=true;
    if(event===undefined){
-    console.log(" Retreiving auth data ");
-    chrome.storage.sync.get("sync").then((val)=>{
-        console.log("from sync="," is the sync")
-        if(val.sync) chrome.storage.sync.get("auth").then(({auth})=>{console.log(" retrieved auth details",auth);setSignedUser(auth)})
-        else chrome.storage.local.get("auth").then(({auth})=>{console.log(" retrieved auth details",auth);setSignedUser(auth)})
+
+
+    //--------- initial loading -------------------
+    chrome.identity.getAuthToken({ interactive: false}, function (token) {
         
-       })
+        if (chrome.runtime.lastError) {
+            //setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
+            chrome.storage.sync.get("sync").then((val)=>{
+                
+                if(val.sync) chrome.storage.sync.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":"","prompt":"rejected"},"docs":{"title":"Not Selected","documentId":""}})
+                else chrome.storage.local.set({"auth":{"user":"Not signed in!","selectOption":"currentUser","token":"","prompt":"rejected"},"docs":{"title":"Not Selected","documentId":""}})
+              //  setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
+               })
+          
+            //  console.log(" Not SignedIn User ");
+        }
+        else {
+            //    console.log('the event is not signout');
+                chrome.identity.getProfileUserInfo((info) => {
+                   // console.log("setting email to ", info.email)
+                   //setSignedUser({"user":info.email,"selectOption":"currentUser"});
+                   console.log("hello i am here",{"auth":{"user":info.email,"selectOption":"currentUser","token":token}})
+                   chrome.storage.sync.get("sync").then((val)=>{
+                    console.log(val.sync," is the sync")
+                    if(val.sync) chrome.storage.sync.set({"auth":{"user":info.email,"selectOption":"currentUser","token":token,"prompt":"success"}}).then(()=>console.log("put ",{"auth":{"user":info.email,"selectOption":"currentUser","token":token}}," in sync"))
+                    else chrome.storage.local.set({"auth":{"user":info.email,"selectOption":"currentUser","token":token,"prompt":"success"}})
+                    
+                   })
+                
+
+                   chrome.storage.sync.get("sync").then((val)=>{
+                    console.log("from sync="," is the sync")
+                    if(val.sync) chrome.storage.sync.get("auth").then(({auth})=>{
+                       
+                       
+                        console.log(" retrieved auth details",auth);
+                        if(auth.user===info.email)setSignedUser(auth)
+                    
+                    
+                    })
+                    else chrome.storage.local.get("auth").then(({auth})=>{
+                        console.log(" retrieved auth details",auth);
+                        if(auth.user===info.email)
+                        setSignedUser(auth)
+                    })
+                    
+                   })
+                })
+                
+            }})
+
+
+
+            
+
+    
+    
+    
    }
     if((event && val==="changeUser") ||(event && val==="signIn")){
         
-    chrome.identity.getAuthToken({ interactive: interactive }, function (token) {
+    chrome.identity.getAuthToken({ interactive: true}, function (token) {
         if (chrome.runtime.lastError) {
             //setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
             chrome.storage.sync.get("sync").then((val)=>{

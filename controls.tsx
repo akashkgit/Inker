@@ -42,7 +42,7 @@ export function Controls(){
     </select>
     </div>
 <div className='flex2' >
-    <div><input type="checkbox" checked={controls.sync} id="sync"  onChange={uControlsBasicHandler}/><span>&nbsp;</span><label htmlFor="sync">Sync</label></div>
+    
     <div >
     <input type="checkbox" checked={controls.keepInks} id="keepInks"  onChange={uControlsBasicHandler}/><span>&nbsp;</span><label htmlFor="keepInks">keepInks</label>
 </div>

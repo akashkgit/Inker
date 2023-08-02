@@ -1,4 +1,4 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Narnoor&display=swap');
 .master{
     overflow: hidden;
     background-color: rgba(202, 197, 187, 0.433);
@@ -23,7 +23,16 @@
     height:100%;
     margin-top:2%;
 }
-
+#empty{
+    width:30%;
+    height:30%;
+}
+.empty h3, .empty h4{
+    margin:0;
+} 
+#empty{
+    margin-top:10%;
+}
 .list{
     background-color: rgba(202, 197, 187, 0.433);
     margin-top:5%;
@@ -34,4 +43,7 @@
     /* box-shadow: 5px 0px 1px 1px rgba(149, 137, 113, 0.84); */
 
     
+}
+.empty h4{
+    font-family: 'Ysabeau Infant', sans-serif;
 }
