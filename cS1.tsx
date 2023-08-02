@@ -161,7 +161,7 @@ unlinkSingle.style.backgroundColor = " grey";
 unlinkSingle.id = "unlink-single";
 unlinkSingle.style.width = "100%";
 unlinkSingle.style.height = "40%";
-unlinkSingle.style.display = 'inline';
+unlinkSingle.style.display = 'none';
 unlinkSingle.addEventListener("click", (ev) => {
         let el = (ev.target as HTMLParagraphElement)
         let elToBeRemoved = el.dataset.remove;
@@ -177,7 +177,7 @@ unlinkFull.style.border = "1px solid black";
 unlinkFull.style.backgroundColor = " grey";
 unlinkFull.style.width = "100%";
 unlinkFull.style.height = "40%";
-unlinkFull.style.display = 'inline';
+unlinkFull.style.display = 'none';
 unlinkFull.id = "unlinkFull";
 
 unlinkFull.addEventListener("click", (ev) => {
