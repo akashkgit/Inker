@@ -1,0 +1,40 @@
+/*!***************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./options.css ***!
+  \***************************************************************/
+.optionsBody{
+    
+}
+/*!******************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./typewriter.css ***!
+  \******************************************************************/
+#twriter{
+ display:block;
+ overflow:hidden;
+ font-size:2em;
+ margin:0% auto;
+ margin-left:auto;
+ width:0em;
+ visibility: none;
+ border-right: .15em solid black;
+ overflow-x: scroll;
+ white-space:nowrap;
+ box-sizing: content-box;
+ animation: type 3.5s steps(20,end)  alternate 2, blink-caret .75s step-end infinite;
+ 
+
+}
+@keyframes type{
+    from{
+        display:hidden;
+   width:0em;
+   
+    }
+    to{
+  width:10em;
+ 
+    }
+}
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+  }

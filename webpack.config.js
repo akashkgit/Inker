@@ -12,11 +12,13 @@ const config = {
   entry: {
     popup:"./popup.tsx",
     cS1:"./cS1.tsx",
-    service:"./service.tsx"
+    service:"./service.tsx",
+    options:"./options.tsx"
   },
   output:{
     path: path.resolve(__dirname,"dist"),
-    filename:"[name].js"
+    filename:"[name].js",
+    assetModuleFilename: '[name][ext]' 
   },
   devServer: {
     open: true,
@@ -36,7 +38,9 @@ const config = {
         ]
     }),
     new HtmlWebpackPlugin({
-      filename: "popup.html",
+      
+      filename:"popup.html",
+      template: "popup.html",
       chunks:["popup"]
     }),
     new HtmlWebpackPlugin({
@@ -65,9 +69,17 @@ const config = {
         use: [stylesHandler, "css-loader"],
       },
       {
-        test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-        type: "asset",
+        test: /\.(eot|png|svg|ttf|woff|woff2|jpg|gif|mp3)$/i,
+        type: "asset/resource",
       },
+       {
+        test: /\.(jpe?g|gif)$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]',
+        },
+      }
+      
 
       // Add your rules for custom modules here
       // Learn more about loaders from https://webpack.js.org/loaders/

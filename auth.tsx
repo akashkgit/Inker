@@ -52,7 +52,8 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
                 "contentType":"json",
                
             };
-            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`).then(async (val)=>{alert();let info=await val.json();console.log(" recieved val ",info)
+            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`).then(async (val)=>{
+                let info=await val.json();console.log(" recieved val ",info)
                    // console.log("setting email to ", info.email)
                    //setSignedUser({"user":info.email,"selectOption":"currentUser"});
                    console.log("hello i am here",{"auth":{"user":info.email,"selectOption":"currentUser","token":token}})
@@ -94,7 +95,7 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
     
    }
     if((event && val==="changeUser") ||(event && val==="signIn")){
-        alert(" gonna sign in user ");
+    //    alert(" gonna sign in user ");
     chrome.identity.getAuthToken({ interactive: true}, function (token) {
         if (chrome.runtime.lastError) {
             //setSignedUser({"user":"Not signed in!","selectOption":"currentUser"});
@@ -109,7 +110,7 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
         }
         else {
             //    console.log('the event is not signout');
-            alert("success")
+          //  alert("success")
             let init:any={
                 method:"GET",
                 "async":false,
@@ -120,7 +121,7 @@ export async function auth(signedUser: {[key:string]:string}, setSignedUser:any,
                 "contentType":"json",
                
             };
-            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`).then(async (val)=>{alert();let info=await val.json();console.log(" recieved val ",info)
+            fetch(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`).then(async (val)=>{let info=await val.json();console.log(" recieved val ",info)
                 
                    // console.log("setting email to ", info.email)
                    //setSignedUser({"user":info.email,"selectOption":"currentUser"});

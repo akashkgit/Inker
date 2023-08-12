@@ -117,15 +117,15 @@ export let storeSelected = async (box: HTMLDivElement[], request: any,text:strin
 export let checkIfInked = async (event: Event) => {
   return chrome.storage.sync.get("sync").then(async ({ sync }) => {
     let { store, controls } = sync == true ? await chrome.storage.sync.get(["store", "controls"]) : await chrome.storage.local.get(["store", "controls"])
-    let Store = (controls.keepInks == false) ? await chrome.storage.session.get("store") : store
+    let Store = (controls.keepInks == false) ? await chrome.storage.session.get("store") : {"store":store}
     let res = { "store": Store }
     console.log("res ", res)
 
     let el = (event.target as HTMLDivElement);
     console.log("target element ", el.dataset.group, el.id)
     console.log("stored object ", res.store)
-    console.log("keying page url for records ", res.store[window.location.href + window.location.hash], window.location.href + window.location.hash, "hash", window.location.hash, " obj ", res.store)
-    let record = res.store[window.location.href];
+    console.log("keying page url for records ", res.store.store[window.location.href], window.location.href, "hash", window.location.hash, " obj ", res.store)
+    let record = res.store.store[window.location.href];
     if (!record) return false;
     if (!record[el.dataset.group]) return false;
     let group = record[el.dataset.group];
@@ -253,7 +253,7 @@ export async function insert(docsId: string, heading: string, level: string, tLe
     .then((resp) => {
       console.log("success");
       (document.querySelector("#stdDiv") as HTMLDivElement).style.display = "none";
-      window.alert(heading.length + " " + content.length + " " + window.location.href.length);
+     // window.alert(heading.length + " " + content.length + " " + window.location.href.length);
     })
     .catch((e) => alert("Error in inserting record ! csHelper@119 " + e))
 

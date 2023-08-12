@@ -57,11 +57,11 @@ chrome.runtime.onInstalled.addListener(async (ev)=>{
     });
 
     chrome.contextMenus.onClicked.addListener(async (ev)=>{
-        console.log(" the frame id is ",ev.frameId)
+       // console.log(" the frame id is ",ev.frameId)
         console.log(ev.menuItemId)
         const chosenId=ev.menuItemId;
         
-        const [tab] = await chrome.tabs.query({active: true, lastFocusedWindow: true});
+        const [tab] = await chrome.tabs.query({active: true, currentWindow: true});
         console.log(tab.id);
         try{
         const response = await chrome.tabs.sendMessage(tab.id, {ev});

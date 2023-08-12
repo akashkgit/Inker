@@ -70,7 +70,7 @@ function viewMe(ev:any){
 }
 function getJSX(xStore:any){
     console.log("JSXGETTER ",xStore)
-    if(xStore!==null && xStore!==undefined && Object.entries(xStore).length>1){
+    if(xStore!==null && xStore!==undefined && Object.entries(xStore).length>=1){
 
        return Object.keys(xStore).map((keys)=>{
             

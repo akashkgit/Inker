@@ -4,7 +4,7 @@ import React, { MouseEventHandler } from "react";
 import { createRoot } from "react-dom/client";
 import  "./cs1.css"
 let text="";
-const drag=require("./drag.png");
+const drag=chrome.runtime.getURL("./drag.png")
 //------- unling pallete -------------
 
 //-------- save to doc palette ---------
@@ -300,33 +300,29 @@ async function preInk(){
 
 }
 preInk();
-document.addEventListener("mouseover", async (ev) => {
+document.addEventListener("mouseover", async (event) => {
         //console.log((ev.target as HTMLDivElement).dataset.group,(ev.target as HTMLDivElement).id)
-         
+         let ev=event
         chrome.storage.sync.get("sync").then(async ({sync})=>{
-                console.log(" element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
+                console.log(" !!! element ",ev,(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
                 let {controls}=sync==true?await chrome.storage.sync.get("controls"):await chrome.storage.local.get("controls");
-               if(controls.keepInks===true){
+               
         checkIfInked(ev).then((found)=>{
 
-        console.log("element found: ", found," element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);
+        
         if (found) {
                // let els=document.querySelectorAll(`div[data-group=${(ev.target as HTMLDivElement).dataset.group}`)
                 // els.forEach((box:HTMLDivElement,id)=>{
                 //                 box.style.boxShadow=
                 // })
-                
+                //alert("found el");
+                console.log("element found: ", found," element ",(ev.target as HTMLDivElement).id," ",(ev.target as HTMLDivElement).dataset.group);        
                 pdiv.style.display = "block";
                 unlinkSingle.dataset["remove"] = (ev.target as HTMLDivElement).id;
                 unlinkFull.dataset["remove"] = (ev.target as HTMLDivElement).dataset.group;
         }
 });
-               }
-               else{
-                unlinkSingle.dataset["remove"] = (ev.target as HTMLDivElement).id;
-                unlinkFull.dataset["remove"] = (ev.target as HTMLDivElement).dataset.group;
-
-               }
+               
 
 })
 
@@ -366,7 +362,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, resp) => {
         }
         if (req.ev.menuItemId === "inkIt") {
 
-                console.log(" fetching UI controls data form chrome storage")
+               // console.log(" fetching UI controls data form chrome storage")
                 let Storage = await chrome.storage.sync.get("controls")
                 if (!Storage || !Storage.controls) {
                         Storage = await chrome.storage.local.get("controls")

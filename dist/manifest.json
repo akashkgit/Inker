@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "action": {
     "default_popup": "popup.html"
+
   },
   "oauth2": {
     "client_id": "994911962715-3gvur88rj0l2mrn746puhnqel2od5lcs.apps.googleusercontent.com",
@@ -13,13 +14,18 @@
     "16": "inker_16.png",
     "32": "inker_32.png",
     "128": "inker_128.png"
-  },
-  "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmpL3bC21fvw48VzijPrD4qSX6FeP5NiCAwyrLlMPodjJzVmS6GpGK5HeHrE2KneLZmf0wLOoRV0mSxTV+TMW9Wx08OHh20fUPNOql79EWMf35KzG6aUBnY1WrG0vjc/oId9lsC13yToJGT0LFzIiAmAfLuSAQUJIbL8kZhSLWpVoB+H0hjaDmzDHwC7BodSIcj9z81vD+6IN1xt7cLkm1nhW60GGPKRS4yOxfqnlU/MbspRfzaKg8DQp59OBZrMx8LSUbPqvfGo16K1oPpgL+DqYP5jGSPFNOCp0vfyFOVk2Rj04TVUNFGI7+Hk+2r+mZaaQsvg4DQJnS49xH2MiNQIDAQAB",
-  
+  }, 
   "permissions": [
     "identity","identity.email",
     "contextMenus",
     "storage","tabs"
+  ],
+  "key":"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAk/SU3B7eL+wHTgni54RIQpnPwVvGt94mosqOL/XrA7/1avxCC+xBY+aUPfjUyUNT0a7NDY/WBT5UbpSEjEmDHqibMgE6TWDe9ddQKiwmuHaD7UJFbLFg9b3xl7dl2Bo88PMWqdWeKGsqBleVVqR8xTFepPcU1ffcACgXWVmAw/Fig3rCHeL628rlTpDiO62oulnN5i5IFYlMpgUfuvf3B/cyKClZTgULnUiuMzjnW+DrMjykcUelHrgmvURRevQ2G3XAnPbt1hZeUw80F+Qjvck98GY5e/GXezqzKJ/HqA5KsnJ7kcUFQkwXLYcdiJzVe4nz2/TlnQ511JMx4rYhQwIDAQAB",
+  "web_accessible_resources": [
+    {
+      "resources": [ "drag.png"],
+      "matches": [ "https://*/*" ]
+    }
   ],
   "content_scripts": [
     {
@@ -31,13 +37,12 @@
         "cS1.js"
       ],
       "css":["cs1.css"]
+      
     }
   ],
   "background": {
     "service_worker": "service.js",
     "type": "module"
-  },
-  "premissions": [
-    "tabs"
-  ]
+  }
+
 }
